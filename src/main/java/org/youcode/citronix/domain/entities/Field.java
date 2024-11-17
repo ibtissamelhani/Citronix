@@ -3,7 +3,6 @@ package org.youcode.citronix.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,17 +12,17 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Farm {
+public class Field {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String name;
-    private String location;
     private double area;
-    private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "farm")
-    private List<Field> fields;
+    @ManyToOne
+    private Farm farm;
+
+    @OneToMany(mappedBy = "field")
+    private List<Tree> trees;
 }

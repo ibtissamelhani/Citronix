@@ -13,17 +13,16 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Farm {
-
+public class Harvest {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String name;
-    private String location;
-    private double area;
-    private LocalDate creationDate;
+    private Season season;
+    private LocalDate date;
+    private double totalQuantity;
 
-    @OneToMany(mappedBy = "farm")
-    private List<Field> fields;
+    @OneToMany(mappedBy = "harvest")
+    private List<HarvestDetail> harvestDetails;
+
 }
