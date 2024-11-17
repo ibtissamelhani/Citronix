@@ -1,0 +1,8 @@
+spring:
+  docker:
+    compose:
+      lifecycle-management: start_only
+      file: src/main/docker/compose.yaml
+      enabled: true
+  liquibase:
+    enabled: false
