@@ -1,4 +1,9 @@
 package org.youcode.citronix.repository;
 
-public interface FieldRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.youcode.citronix.domain.entities.Field;
+
+import java.util.UUID;
+
+public interface FieldRepository extends JpaRepository<Field, UUID> {
 }
