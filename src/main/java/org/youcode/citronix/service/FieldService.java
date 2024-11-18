@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface FieldService {
     Field addField(FieldRequestDTO fieldRequestDTO);
+    Field getFieldById(UUID id);
+    void deleteField(UUID id);
 }

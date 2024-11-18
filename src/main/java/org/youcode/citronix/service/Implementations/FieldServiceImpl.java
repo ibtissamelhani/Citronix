@@ -11,6 +11,7 @@ import org.youcode.citronix.repository.FieldRepository;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.web.exception.Farm.FarmSizeException;
+import org.youcode.citronix.web.exception.Field.FieldNotFoundException;
 import org.youcode.citronix.web.exception.InvalidCredentialsException;
 
 import java.util.UUID;
@@ -58,5 +59,18 @@ public class FieldServiceImpl implements FieldService {
         if (totalArea >= farm.getArea()) {
             throw new FarmSizeException("Total field area must be less than the farm's total area");
         }
+    }
+
+    @Override
+    public Field getFieldById(UUID id) {
+        return fieldRepository.findById(id)
+                .orElseThrow(() -> new FieldNotFoundException("Field not found"));
+    }
+
+    @Override
+    public void deleteField(UUID id) {
+
+        Field field = getFieldById(id);
+        fieldRepository.delete(field);
     }
 }
