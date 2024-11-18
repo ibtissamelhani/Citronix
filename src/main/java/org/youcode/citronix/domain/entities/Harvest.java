@@ -19,6 +19,7 @@ public class Harvest {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
     private Season season;
     private LocalDate date;
     private double totalQuantity;

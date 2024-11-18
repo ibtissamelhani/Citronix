@@ -5,4 +5,5 @@ spring:
       file: src/main/docker/compose.yaml
       enabled: true
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: db/changelog/master.yaml
