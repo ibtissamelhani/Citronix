@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.repository.FarmRepository;
 import org.youcode.citronix.service.FarmService;
-import org.youcode.citronix.web.VM.Farm.FarmCreationVM;
 import org.youcode.citronix.web.exception.Farm.FarmNotFoundException;
 import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
 import org.youcode.citronix.web.exception.InvalidCredentialsException;
@@ -53,8 +52,16 @@ public class FarmServiceImpl implements FarmService {
 
 
     @Override
-    public Farm updateFarm(UUID id, FarmCreationVM farmVM) {
-        return null;
+    public Farm updateFarm(UUID id, Farm farm) {
+        Farm farmToUpdate = this.getFarmById(id);
+        if (farm == null){
+            throw new InvalidFarmException("invalid farm");
+        }
+        farmToUpdate.setName(farm.getName());
+        farmToUpdate.setArea(farm.getArea());
+        farmToUpdate.setLocation(farm.getLocation());
+        farmToUpdate.setCreationDate(farm.getCreationDate());
+        return farmRepository.save(farmToUpdate);
     }
 
     @Override

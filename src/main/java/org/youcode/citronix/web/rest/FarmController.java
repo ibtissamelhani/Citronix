@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.service.FarmService;
-import org.youcode.citronix.web.VM.Farm.FarmCreationVM;
-import org.youcode.citronix.web.VM.mapper.FarmCreationVMMapper;
+import org.youcode.citronix.web.VM.Farm.FarmRequestVM;
+import org.youcode.citronix.web.VM.mapper.FarmRequestVMMapper;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,11 +20,11 @@ import java.util.UUID;
 public class FarmController {
 
     private final FarmService farmService;
-    private final FarmCreationVMMapper farmCreationVMMapper;
+    private final FarmRequestVMMapper farmRequestVMMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<Farm> saveFarm(@RequestBody @Valid FarmCreationVM farmCreationVM) {
-        Farm farmToSave = farmCreationVMMapper.toFarm(farmCreationVM);
+    public ResponseEntity<Farm> saveFarm(@RequestBody @Valid FarmRequestVM farmRequestVM) {
+        Farm farmToSave = farmRequestVMMapper.toFarm(farmRequestVM);
         Farm savedFarm = farmService.save(farmToSave);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFarm);
     }
@@ -46,5 +46,12 @@ public class FarmController {
     @GetMapping("/{id}")
     public ResponseEntity<Farm> getFarmById(@PathVariable UUID id) {
         return ResponseEntity.ok(farmService.getFarmById(id));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Farm> updateFarm(@RequestParam UUID id, @Valid @RequestBody FarmRequestVM farmRequestVM) {
+        Farm farmToUpdate = farmRequestVMMapper.toFarm(farmRequestVM);
+        Farm updatedFarm = farmService.updateFarm(id, farmToUpdate);
+        return ResponseEntity.ok(updatedFarm);
     }
 }
