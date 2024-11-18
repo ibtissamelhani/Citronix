@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.citronix.domain.entities.Farm;
+import org.youcode.citronix.service.DTO.SearchFarmDTO;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.web.VM.Farm.FarmRequestVM;
 import org.youcode.citronix.web.VM.mapper.FarmRequestVMMapper;
@@ -59,5 +60,11 @@ public class FarmController {
     public ResponseEntity<String> deleteFarm(@RequestParam UUID id) {
         farmService.deleteFarm(id);
         return ResponseEntity.ok("Farm deleted successfully.");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Farm>> search(@RequestBody SearchFarmDTO searchFarmDTO){
+        List<Farm> farmList= farmService.search(searchFarmDTO);
+        return ResponseEntity.ok().body(farmList);
     }
 }

@@ -2,6 +2,7 @@ package org.youcode.citronix.service;
 
 import org.springframework.data.domain.Page;
 import org.youcode.citronix.domain.entities.Farm;
+import org.youcode.citronix.service.DTO.SearchFarmDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,4 +14,5 @@ public interface FarmService {
     Farm updateFarm(UUID id, Farm farm);
     void deleteFarm(UUID id);
     Page<Farm> getFarmsWithPagination(int page, int size);
+    List<Farm> search(SearchFarmDTO searchFarmDTO);
 }

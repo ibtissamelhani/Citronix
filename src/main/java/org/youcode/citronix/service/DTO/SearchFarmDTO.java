@@ -12,5 +12,4 @@ import java.time.LocalDate;
 public class SearchFarmDTO {
     private String name;
     private String location;
-    private LocalDate creationDate;
 }
