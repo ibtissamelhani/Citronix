@@ -53,6 +53,9 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public Farm updateFarm(UUID id, Farm farm) {
+        if (id == null){
+            throw new InvalidCredentialsException("farm id is required");
+        }
         Farm farmToUpdate = this.getFarmById(id);
         if (farm == null){
             throw new InvalidFarmException("invalid farm");
@@ -66,7 +69,11 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public void deleteFarm(UUID id) {
-
+        if (id == null){
+            throw new InvalidCredentialsException("farm id is required");
+        }
+        Farm farmToDelete = this.getFarmById(id);
+        farmRepository.delete(farmToDelete);
     }
 
 

@@ -54,4 +54,10 @@ public class FarmController {
         Farm updatedFarm = farmService.updateFarm(id, farmToUpdate);
         return ResponseEntity.ok(updatedFarm);
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteFarm(@RequestParam UUID id) {
+        farmService.deleteFarm(id);
+        return ResponseEntity.ok("Farm deleted successfully.");
+    }
 }
