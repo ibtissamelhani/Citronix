@@ -2,7 +2,7 @@ package org.youcode.citronix.service;
 
 import org.springframework.data.domain.Page;
 import org.youcode.citronix.domain.entities.Farm;
-import org.youcode.citronix.service.DTO.SearchFarmDTO;
+import org.youcode.citronix.DTO.Farm.SearchFarmDTO;
 
 import java.util.List;
 import java.util.UUID;

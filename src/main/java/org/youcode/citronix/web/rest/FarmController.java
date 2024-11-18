@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.citronix.domain.entities.Farm;
-import org.youcode.citronix.service.DTO.SearchFarmDTO;
+import org.youcode.citronix.DTO.Farm.SearchFarmDTO;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.web.VM.Farm.FarmRequestVM;
 import org.youcode.citronix.web.VM.mapper.FarmRequestVMMapper;

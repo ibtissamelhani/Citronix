@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.youcode.citronix.web.exception.Farm.FarmNotFoundException;
+import org.youcode.citronix.web.exception.Farm.FarmSizeException;
 import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
 
 import java.util.HashMap;
@@ -38,6 +39,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FarmNotFoundException.class)
     public ResponseEntity<String> handleInvalidUserException(FarmNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FarmSizeException.class)
+    public ResponseEntity<String> handleInvalidUserException(FarmSizeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

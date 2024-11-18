@@ -1,8 +1,6 @@
-package org.youcode.citronix.service.DTO;
+package org.youcode.citronix.DTO.Farm;
 
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
