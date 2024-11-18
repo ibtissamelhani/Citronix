@@ -2,6 +2,7 @@ package org.youcode.citronix.web.rest;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,13 @@ public class FieldController {
     public ResponseEntity<String> deleteField(@PathVariable UUID fieldId) {
         fieldService.deleteField(fieldId);
         return ResponseEntity.ok("Field deleted successfully");
+    }
+
+    @GetMapping("/{farmId}")
+    public ResponseEntity<Page<Field>> findAllByFarmId(@PathVariable UUID farmId,
+                                                       @RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "10") int size ) {
+        Page<Field> fields = fieldService.findAllByFarmId(farmId, page,size);
+        return new ResponseEntity<>(fields, HttpStatus.OK);
     }
 }

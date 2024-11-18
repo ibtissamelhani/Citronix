@@ -2,6 +2,9 @@ package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.youcode.citronix.DTO.Field.FieldRequestDTO;
@@ -72,5 +75,11 @@ public class FieldServiceImpl implements FieldService {
 
         Field field = getFieldById(id);
         fieldRepository.delete(field);
+    }
+
+    @Override
+    public Page<Field> findAllByFarmId(UUID farmId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return fieldRepository.findAllByFarmId(farmId, pageable);
     }
 }
