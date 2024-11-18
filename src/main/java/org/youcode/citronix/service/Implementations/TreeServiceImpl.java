@@ -2,13 +2,16 @@ package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.repository.TreeRepository;
 import org.youcode.citronix.service.TreeService;
 import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
+import org.youcode.citronix.web.exception.Tree.TreeDensityException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +29,14 @@ public class TreeServiceImpl implements TreeService {
         Month month = plantingDate.getMonth();
         if (month != Month.MARCH && month != Month.APRIL && month != Month.MAY) {
             throw new InvalidPlantingDateException("Trees can only be planted between March and May.");
+        }
+    }
+
+    private void validateTreeDensity(Field field, UUID fieldId) {
+        long treeCount = treeRepository.countByFieldId(fieldId);
+        double maxTrees = field.getArea() * 100;
+        if (treeCount >= maxTrees) {
+            throw new TreeDensityException("Field cannot contain more than 100 trees per hectare.");
         }
     }
 }
