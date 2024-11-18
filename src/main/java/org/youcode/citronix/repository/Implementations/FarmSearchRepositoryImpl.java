@@ -9,7 +9,7 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.repository.FarmSearchRepository;
-import org.youcode.citronix.service.DTO.SearchFarmDTO;
+import org.youcode.citronix.DTO.Farm.SearchFarmDTO;
 
 import java.util.ArrayList;
 import java.util.List;
