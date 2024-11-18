@@ -2,9 +2,11 @@ package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.repository.TreeRepository;
+import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.TreeService;
 import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
 import org.youcode.citronix.web.exception.Tree.TreeDensityException;
@@ -18,11 +20,18 @@ import java.util.UUID;
 public class TreeServiceImpl implements TreeService {
 
     private final TreeRepository treeRepository;
+    private final FieldService fieldService;
 
     @Override
-    public Tree saveTree(Tree tree) {
-        validatePlantingDate(tree.getPlantingDate());
-        return treeRepository.save(tree);
+    public Tree saveTree(TreeRequestDTO treeRequestDTO) {
+        validatePlantingDate(treeRequestDTO.getPlantingDate());
+        Field field = fieldService.getFieldById(treeRequestDTO.getFieldId());
+        validateTreeDensity(field);
+        Tree treeToSave = Tree.builder()
+                .plantingDate(treeRequestDTO.getPlantingDate())
+                .field(field)
+                .build();
+        return treeRepository.save(treeToSave);
     }
 
     private void validatePlantingDate(LocalDate plantingDate) {
@@ -32,8 +41,8 @@ public class TreeServiceImpl implements TreeService {
         }
     }
 
-    private void validateTreeDensity(Field field, UUID fieldId) {
-        long treeCount = treeRepository.countByFieldId(fieldId);
+    private void validateTreeDensity(Field field) {
+        long treeCount = treeRepository.countByFieldId(field.getId());
         double maxTrees = field.getArea() * 100;
         if (treeCount >= maxTrees) {
             throw new TreeDensityException("Field cannot contain more than 100 trees per hectare.");
