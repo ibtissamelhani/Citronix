@@ -2,6 +2,7 @@ package org.youcode.citronix.web.rest;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,13 @@ public class FarmController {
     public ResponseEntity<List<Farm>> getAllFarms() {
         List<Farm> farms = farmService.getAllFarms();
         return ResponseEntity.ok(farms);
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<Farm>> getFarmsWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Farm> farmPage = farmService.getFarmsWithPagination(page,size);
+        return ResponseEntity.ok(farmPage);
     }
 }

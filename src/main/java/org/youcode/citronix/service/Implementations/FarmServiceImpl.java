@@ -2,6 +2,8 @@ package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.repository.FarmRepository;
@@ -33,6 +35,12 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
+    public Page<Farm> getFarmsWithPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return farmRepository.findAll(pageable);
+    }
+
+    @Override
     public Farm getFarmById(UUID id) {
         return null;
     }
@@ -47,8 +55,5 @@ public class FarmServiceImpl implements FarmService {
 
     }
 
-    @Override
-    public Page<Farm> getFarmsWithPagination(int page, int size) {
-        return null;
-    }
+
 }
