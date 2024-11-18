@@ -44,4 +44,18 @@ public class FieldController {
         Page<Field> fields = fieldService.findAllByFarmId(farmId, page,size);
         return new ResponseEntity<>(fields, HttpStatus.OK);
     }
+
+    @GetMapping
+    public ResponseEntity<Page<Field>> getFarmsWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Field> fieldPage = fieldService.getFieldsWithPagination(page,size);
+        return ResponseEntity.ok(fieldPage);
+    }
+
+    @PutMapping("/update/{fieldId}")
+    public ResponseEntity<Field> updateField(@PathVariable UUID fieldId, @RequestBody double newArea) {
+        Field createdField = fieldService.updateField(fieldId,newArea);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdField);
+    }
 }

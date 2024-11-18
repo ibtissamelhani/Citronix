@@ -1,7 +1,6 @@
 package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -82,4 +81,24 @@ public class FieldServiceImpl implements FieldService {
         Pageable pageable = PageRequest.of(page, size);
         return fieldRepository.findAllByFarmId(farmId, pageable);
     }
+
+    @Override
+    public Page<Field> getFieldsWithPagination(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return fieldRepository.findAll(pageable);
+    }
+
+    @Override
+    public Field updateField(UUID fieldId, double newArea) {
+        if (fieldId == null){
+            throw new InvalidCredentialsException("field Id is required");
+        }
+        Field fieldToUpdate = getFieldById(fieldId);
+        validateField(fieldToUpdate.getFarm(),newArea);
+
+        fieldToUpdate.setArea(newArea);
+        return fieldRepository.save(fieldToUpdate);
+    }
+
+
 }
