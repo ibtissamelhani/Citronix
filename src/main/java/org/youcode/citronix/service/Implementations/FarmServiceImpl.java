@@ -9,7 +9,9 @@ import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.repository.FarmRepository;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.web.VM.Farm.FarmCreationVM;
+import org.youcode.citronix.web.exception.Farm.FarmNotFoundException;
 import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
+import org.youcode.citronix.web.exception.InvalidCredentialsException;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,8 +44,13 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public Farm getFarmById(UUID id) {
-        return null;
+        if (id==null){
+            throw new InvalidCredentialsException("farm id is required");
+        }
+        return farmRepository.findById(id)
+                .orElseThrow(()-> new FarmNotFoundException("farm not found"));
     }
+
 
     @Override
     public Farm updateFarm(UUID id, FarmCreationVM farmVM) {

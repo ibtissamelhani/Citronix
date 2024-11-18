@@ -12,6 +12,7 @@ import org.youcode.citronix.web.VM.Farm.FarmCreationVM;
 import org.youcode.citronix.web.VM.mapper.FarmCreationVMMapper;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("v1/api/farms")
@@ -40,5 +41,10 @@ public class FarmController {
             @RequestParam(defaultValue = "10") int size) {
         Page<Farm> farmPage = farmService.getFarmsWithPagination(page,size);
         return ResponseEntity.ok(farmPage);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Farm> getFarmById(@PathVariable UUID id) {
+        return ResponseEntity.ok(farmService.getFarmById(id));
     }
 }
