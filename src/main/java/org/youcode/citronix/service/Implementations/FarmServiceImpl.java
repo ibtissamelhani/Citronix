@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.repository.FarmRepository;
+import org.youcode.citronix.repository.FarmSearchRepository;
+import org.youcode.citronix.service.DTO.SearchFarmDTO;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.web.exception.Farm.FarmNotFoundException;
 import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class FarmServiceImpl implements FarmService {
 
     private final FarmRepository farmRepository;
+    private final FarmSearchRepository farmSearchRepository;
 
     @Override
     public Farm save(Farm farm) {
@@ -76,5 +79,8 @@ public class FarmServiceImpl implements FarmService {
         farmRepository.delete(farmToDelete);
     }
 
-
+    @Override
+    public List<Farm> search(SearchFarmDTO searchFarmDTO) {
+        return farmSearchRepository.findByCriteria(searchFarmDTO);
+    }
 }
