@@ -33,4 +33,15 @@ public class Tree {
         Period age = Period.between(plantingDate, today);
         return age.getYears();
     }
+
+    public double getProductivity() {
+        int age = getAge();
+        if (age < 3) {
+            return 2.5 ;
+        } else if (age <= 10) {
+            return 12 ;
+        } else {
+            return 20 ;
+        }
+    }
 }
