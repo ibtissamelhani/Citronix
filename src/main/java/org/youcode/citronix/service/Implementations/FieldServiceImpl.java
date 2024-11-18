@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.youcode.citronix.DTO.Field.FieldRequestDTO;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.repository.FieldRepository;
@@ -23,23 +24,27 @@ public class FieldServiceImpl implements FieldService {
 
     @Transactional
     @Override
-    public Field addField(UUID farmId, Field field) {
-        Farm farm = farmService.getFarmById(farmId);
+    public Field addField(FieldRequestDTO fieldRequestDTO) {
+        Farm farm = farmService.getFarmById(fieldRequestDTO.getFarmId());
 
-        validateField(farm,field);
+        validateField(farm,fieldRequestDTO.getArea());
 
-        field.setFarm(farm);
+        Field field = Field.builder()
+                .area(fieldRequestDTO.getArea())
+                .farm(farm)
+                .build();
+
         farm.getFields().add(field);
 
         return fieldRepository.save(field);
     }
 
-    private void validateField(Farm farm, Field newField) {
-        if (newField.getArea() < 0.1) {
+    private void validateField(Farm farm, Double newFieldArea) {
+        if (newFieldArea < 0.1) {
             throw new InvalidCredentialsException("Field area must be at least 0.1 hectares (1,000 m²)");
         }
 
-        if (newField.getArea() > (0.5 * farm.getArea())) {
+        if (newFieldArea > (0.5 * farm.getArea())) {
             throw new InvalidCredentialsException("Field area cannot exceed 50% of the farm's total area");
         }
 
@@ -49,7 +54,7 @@ public class FieldServiceImpl implements FieldService {
 
         double totalArea = farm.getFields().stream()
                 .mapToDouble(Field::getArea)
-                .sum() + newField.getArea();
+                .sum() + newFieldArea;
         if (totalArea >= farm.getArea()) {
             throw new FarmSizeException("Total field area must be less than the farm's total area");
         }
