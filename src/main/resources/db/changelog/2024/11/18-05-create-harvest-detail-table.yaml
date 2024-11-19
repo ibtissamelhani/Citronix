@@ -31,6 +31,8 @@ databaseChangeLog:
             constraintName: FK_HARVESTDETAIL_ON_HARVEST
             referencedColumnNames: id
             referencedTableName: harvest
+            onDelete: CASCADE
+            onUpdate: CASCADE
         - addForeignKeyConstraint:
             baseColumnNames: tree_id
             baseTableName: harvest_detail

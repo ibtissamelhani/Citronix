@@ -20,9 +20,20 @@ databaseChangeLog:
                   name: date
                   type: DATE
               - column:
+                  name: field_id
+                  type: UUID
+              - column:
                   constraints:
                     nullable: false
                   name: total_quantity
                   type: DOUBLE
             tableName: harvest
+        - addForeignKeyConstraint:
+            baseColumnNames: field_id
+            baseTableName: harvest
+            constraintName: FK_HARVEST_ON_FIELD
+            referencedColumnNames: id
+            referencedTableName: field
+            onDelete: CASCADE
+            onUpdate: CASCADE
 
