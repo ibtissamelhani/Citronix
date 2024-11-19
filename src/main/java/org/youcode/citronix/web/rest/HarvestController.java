@@ -11,6 +11,7 @@ import org.youcode.citronix.web.VM.Harvest.HarvestCreationVM;
 import org.youcode.citronix.web.VM.Harvest.HarvestResponseVM;
 import org.youcode.citronix.web.VM.mapper.HarvestCreationVMMapper;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -35,6 +36,14 @@ public class HarvestController {
     public ResponseEntity<String> deleteHarvest(@PathVariable UUID id) {
         harvestService.delete(id);
         return ResponseEntity.ok("harvest deleted successfully");
+    }
+    @GetMapping("/field/{fieldId}")
+    public ResponseEntity<List<HarvestResponseVM>> findHarvestsByFieldId(@PathVariable UUID fieldId) {
+        List<Harvest> harvests = harvestService.findHarvestsByFieldId(fieldId);
+        List<HarvestResponseVM> harvestResponseVMS = harvests.stream()
+                .map(HarvestResponseVM::fromEntity)
+                .toList();
+        return ResponseEntity.ok(harvestResponseVMS);
     }
 
 
