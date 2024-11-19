@@ -15,6 +15,4 @@ public interface FarmService {
     void deleteFarm(UUID id);
     Page<Farm> getFarmsWithPagination(int page, int size);
     List<Farm> search(SearchFarmDTO searchFarmDTO);
-
-    List<Farm> getFarmsWithArea();
 }

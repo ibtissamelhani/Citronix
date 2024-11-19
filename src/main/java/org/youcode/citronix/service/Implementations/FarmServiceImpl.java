@@ -17,7 +17,7 @@ import org.youcode.citronix.web.exception.InvalidCredentialsException;
 import java.util.List;
 import java.util.UUID;
 
-@Service("farmServiceImpl")
+@Service
 @AllArgsConstructor
 public class FarmServiceImpl implements FarmService {
 
@@ -29,7 +29,6 @@ public class FarmServiceImpl implements FarmService {
         if (farm == null){
             throw new InvalidFarmException("Farm object cannot be null.");
         }
-
         return farmRepository.save(farm);
     }
 

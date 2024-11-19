@@ -9,8 +9,11 @@ import org.youcode.citronix.web.exception.Farm.FarmNotFoundException;
 import org.youcode.citronix.web.exception.Farm.FarmSizeException;
 import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
 import org.youcode.citronix.web.exception.Field.FieldNotFoundException;
+import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
+import org.youcode.citronix.web.exception.Tree.TreeDensityException;
 
 import java.util.HashMap;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 
 @ControllerAdvice
@@ -52,6 +55,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FieldNotFoundException.class)
     public ResponseEntity<String> handleInvalidUserException(FieldNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    //////    Tree exception handler    //////
+
+    @ExceptionHandler(InvalidPlantingDateException.class)
+    public ResponseEntity<String> handleInvalidUserException(InvalidPlantingDateException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(TreeDensityException.class)
+    public ResponseEntity<String> handleInvalidUserException(TreeDensityException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
