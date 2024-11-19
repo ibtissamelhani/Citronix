@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,4 +27,23 @@ public class Tree {
 
     @OneToMany(mappedBy = "tree")
     private List<HarvestDetail> harvestDetails;
+
+    public int getAge() {
+        LocalDate today = LocalDate.now();
+        Period age = Period.between(plantingDate, today);
+        return age.getYears();
+    }
+
+    public double getProductivity() {
+        int age = getAge();
+        if (age < 3) {
+            return 2.5 ;
+        } else if (age <= 10) {
+            return 12 ;
+        } else if (age <= 20){
+            return 20 ;
+        }else {
+            return 0;
+        }
+    }
 }

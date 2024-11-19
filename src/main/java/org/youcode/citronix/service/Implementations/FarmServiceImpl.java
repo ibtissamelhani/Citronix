@@ -29,7 +29,6 @@ public class FarmServiceImpl implements FarmService {
         if (farm == null){
             throw new InvalidFarmException("Farm object cannot be null.");
         }
-
         return farmRepository.save(farm);
     }
 
