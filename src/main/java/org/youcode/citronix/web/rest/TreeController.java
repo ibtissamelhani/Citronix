@@ -39,4 +39,10 @@ public class TreeController {
         Page<Tree> treePage = treeService.getAllTreesByFieldId(fieldId,page,size);
         return ResponseEntity.ok(treePage);
     }
+
+    @DeleteMapping("/delete/{treeId}")
+    public ResponseEntity<String> deleteTree(@PathVariable UUID treeId) {
+        treeService.delete(treeId);
+        return ResponseEntity.ok("Tree deleted successfully");
+    }
 }

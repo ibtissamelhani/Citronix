@@ -10,4 +10,6 @@ public interface TreeService {
     Tree saveTree(TreeRequestDTO treeRequestDTO);
     Page<Tree> getAllTreesPaginated(int page, int size);
     Page<Tree> getAllTreesByFieldId(UUID fieldId,int page, int size);
+    void delete(UUID id);
+    Tree findById(UUID id);
 }

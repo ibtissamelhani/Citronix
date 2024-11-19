@@ -14,6 +14,7 @@ import org.youcode.citronix.service.TreeService;
 import org.youcode.citronix.web.exception.InvalidCredentialsException;
 import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
 import org.youcode.citronix.web.exception.Tree.TreeDensityException;
+import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -66,5 +67,20 @@ public class TreeServiceImpl implements TreeService {
         }
         Pageable pageable = PageRequest.of(page,size);
         return treeRepository.findAllByFieldId(fieldId,pageable);
+    }
+
+    @Override
+    public Tree findById(UUID id) {
+        if (id == null){
+            throw new InvalidCredentialsException("id is required");
+        }
+        return treeRepository.findById(id)
+                .orElseThrow(()-> new TreeNotFoundException("tree not found"));
+    }
+
+    @Override
+    public void delete(UUID id) {
+        Tree treeToDelete = findById(id);
+        treeRepository.delete(treeToDelete);
     }
 }
