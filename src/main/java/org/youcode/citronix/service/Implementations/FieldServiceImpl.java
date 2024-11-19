@@ -1,6 +1,7 @@
 package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +20,21 @@ import org.youcode.citronix.web.exception.InvalidCredentialsException;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 public class FieldServiceImpl implements FieldService {
 
     private final FieldRepository fieldRepository;
+
     private final FarmService farmService;
+
+    public FieldServiceImpl(FieldRepository fieldRepository, @Qualifier("farmServiceImpl") FarmService farmService) {
+        this.fieldRepository = fieldRepository;
+        this.farmService = farmService;
+    }
+
+    @Override
+    public Field save(Field field) {
+        return fieldRepository.save(field);
+    }
 
     @Transactional
     @Override

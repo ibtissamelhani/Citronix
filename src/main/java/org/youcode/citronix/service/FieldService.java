@@ -6,6 +6,7 @@ import org.youcode.citronix.domain.entities.Field;
 
 import java.util.UUID;
 
+
 public interface FieldService {
     Field addField(FieldRequestDTO fieldRequestDTO);
     Field getFieldById(UUID id);
@@ -13,5 +14,6 @@ public interface FieldService {
     Page<Field> findAllByFarmId(UUID farmId, int page, int size);
     Page<Field> getFieldsWithPagination(int page, int size);
     Field updateField(UUID fieldId, double area);
+    Field save(Field field);
 
 }

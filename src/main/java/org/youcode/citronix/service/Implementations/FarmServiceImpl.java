@@ -17,7 +17,7 @@ import org.youcode.citronix.web.exception.InvalidCredentialsException;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Service("farmServiceImpl")
 @AllArgsConstructor
 public class FarmServiceImpl implements FarmService {
 
