@@ -10,6 +10,7 @@ import org.youcode.citronix.web.exception.Farm.FarmSizeException;
 import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
 import org.youcode.citronix.web.exception.Field.FieldNotFoundException;
 import org.youcode.citronix.web.exception.Harvest.HarvestAlreadyExistException;
+import org.youcode.citronix.web.exception.Harvest.HarvestNotFoundException;
 import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
 import org.youcode.citronix.web.exception.Tree.TreeDensityException;
 import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
@@ -81,6 +82,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HarvestAlreadyExistException.class)
     public ResponseEntity<String> handleInvalidUserException(HarvestAlreadyExistException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(HarvestNotFoundException.class)
+    public ResponseEntity<String> handleInvalidUserException(HarvestNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

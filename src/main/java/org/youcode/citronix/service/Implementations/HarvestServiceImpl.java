@@ -7,11 +7,14 @@ import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Harvest;
 import org.youcode.citronix.domain.entities.HarvestDetail;
 import org.youcode.citronix.domain.entities.Tree;
+import org.youcode.citronix.domain.enums.Season;
 import org.youcode.citronix.repository.HarvestDetailRepository;
 import org.youcode.citronix.repository.HarvestRepository;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.web.exception.Harvest.HarvestAlreadyExistException;
+import org.youcode.citronix.web.exception.Harvest.HarvestNotFoundException;
+import org.youcode.citronix.web.exception.InvalidCredentialsException;
 import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
 
 import java.util.List;
@@ -65,5 +68,33 @@ public class HarvestServiceImpl implements HarvestService {
                 .toList();
         harvestDetailRepository.saveAll(harvestDetails);
         return savedHarvest;
+    }
+
+    @Override
+    public Harvest findById(UUID id) {
+        if (id == null){
+            throw new InvalidCredentialsException("harvest ID is Required");
+        }
+        return harvestRepository.findById(id)
+                .orElseThrow(()-> new HarvestNotFoundException("harvest Not Found"));
+    }
+
+    @Override
+    public void delete(UUID id) {
+        Harvest harvestToDelete = findById(id);
+        harvestRepository.delete(harvestToDelete);
+    }
+
+    @Override
+    public List<Harvest> findHarvestsByFieldId(UUID fieldId) {
+        if ( fieldId == null){
+            throw new InvalidCredentialsException("Field ID is Required");
+        }
+        return harvestRepository.findByFieldId(fieldId);
+    }
+
+    @Override
+    public List<Harvest> getHarvestsBySeason(Season season) {
+        return harvestRepository.findBySeason(season);
     }
 }
