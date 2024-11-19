@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
 import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Tree;
@@ -82,5 +83,13 @@ public class TreeServiceImpl implements TreeService {
     public void delete(UUID id) {
         Tree treeToDelete = findById(id);
         treeRepository.delete(treeToDelete);
+    }
+
+    @Override
+    public TreeDetailsDTO getTreeDetails(UUID id) {
+        Tree tree = findById(id);
+        int age = tree.getAge();
+        double productivity = tree.getProductivity();
+        return new TreeDetailsDTO(tree.getPlantingDate(),age,productivity);
     }
 }

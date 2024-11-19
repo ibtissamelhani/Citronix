@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
 import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.service.TreeService;
@@ -44,5 +45,11 @@ public class TreeController {
     public ResponseEntity<String> deleteTree(@PathVariable UUID treeId) {
         treeService.delete(treeId);
         return ResponseEntity.ok("Tree deleted successfully");
+    }
+
+    @GetMapping("/{treeId}/details")
+    public ResponseEntity<TreeDetailsDTO> getTreeDetails(@PathVariable UUID treeId) {
+        TreeDetailsDTO treeDetails = treeService.getTreeDetails(treeId);
+        return ResponseEntity.ok(treeDetails);
     }
 }
