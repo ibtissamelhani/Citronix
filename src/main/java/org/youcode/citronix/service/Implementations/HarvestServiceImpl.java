@@ -12,6 +12,7 @@ import org.youcode.citronix.repository.HarvestRepository;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.web.exception.Harvest.HarvestAlreadyExistException;
+import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +35,13 @@ public class HarvestServiceImpl implements HarvestService {
             throw new HarvestAlreadyExistException("A harvest already exists for this field and season.");
         }
 
-        List<Tree> trees = fieldToHarvest.getTrees();
+        List<Tree> trees = fieldToHarvest.getTrees().stream()
+                .filter(tree -> !harvestDetailRepository.existsByTreeAndHarvestSeason(tree, harvest.getSeason()))
+                .toList();
+
+        if (trees.isEmpty()){
+            throw new TreeNotFoundException("All trees has been harvested this season.");
+        }
 
         double totalQuantity = trees.stream()
                 .mapToDouble(Tree::getProductivity)
