@@ -1,6 +1,7 @@
 package org.youcode.citronix.service;
 
 import org.springframework.data.domain.Page;
+import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
 import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
 import org.youcode.citronix.domain.entities.Tree;
 
@@ -12,4 +13,5 @@ public interface TreeService {
     Page<Tree> getAllTreesByFieldId(UUID fieldId,int page, int size);
     void delete(UUID id);
     Tree findById(UUID id);
+    TreeDetailsDTO getTreeDetails(UUID id);
 }
