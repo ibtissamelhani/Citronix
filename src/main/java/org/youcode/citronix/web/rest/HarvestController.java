@@ -31,5 +31,12 @@ public class HarvestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(HarvestResponseVM.fromEntity(createdHarvest));
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteHarvest(@PathVariable UUID id) {
+        harvestService.delete(id);
+        return ResponseEntity.ok("harvest deleted successfully");
+    }
+
+
 
 }
