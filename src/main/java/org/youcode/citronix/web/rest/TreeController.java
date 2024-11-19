@@ -2,17 +2,15 @@ package org.youcode.citronix.web.rest;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
-import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.service.TreeService;
-import org.youcode.citronix.web.VM.Farm.FarmRequestVM;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("v1/api/trees")
@@ -26,4 +24,19 @@ public class TreeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTree);
     }
 
+    @GetMapping
+    public ResponseEntity<Page<Tree>> getTreesWithPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Tree> treePage = treeService.getAllTreesPaginated(page,size);
+        return ResponseEntity.ok(treePage);
+    }
+
+    @GetMapping("/{fieldId}")
+    public ResponseEntity<Page<Tree>> getTreesByFieldId(@PathVariable UUID fieldId,
+                                                        @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int size) {
+        Page<Tree> treePage = treeService.getAllTreesByFieldId(fieldId,page,size);
+        return ResponseEntity.ok(treePage);
+    }
 }

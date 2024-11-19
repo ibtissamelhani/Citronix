@@ -13,7 +13,6 @@ import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
 import org.youcode.citronix.web.exception.Tree.TreeDensityException;
 
 import java.util.HashMap;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 
 @ControllerAdvice
