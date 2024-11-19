@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.citronix.domain.entities.Harvest;
+import org.youcode.citronix.domain.enums.Season;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.web.VM.Harvest.HarvestCreationVM;
 import org.youcode.citronix.web.VM.Harvest.HarvestResponseVM;
@@ -37,6 +38,8 @@ public class HarvestController {
         harvestService.delete(id);
         return ResponseEntity.ok("harvest deleted successfully");
     }
+
+
     @GetMapping("/field/{fieldId}")
     public ResponseEntity<List<HarvestResponseVM>> findHarvestsByFieldId(@PathVariable UUID fieldId) {
         List<Harvest> harvests = harvestService.findHarvestsByFieldId(fieldId);
@@ -46,6 +49,13 @@ public class HarvestController {
         return ResponseEntity.ok(harvestResponseVMS);
     }
 
-
+    @GetMapping("/season/{season}")
+    public ResponseEntity<List<HarvestResponseVM>> getHarvestsBySeason(@PathVariable Season season) {
+        List<Harvest> harvests = harvestService.getHarvestsBySeason(season);
+        List<HarvestResponseVM> response = harvests.stream()
+                .map(HarvestResponseVM::fromEntity)
+                .toList();
+        return ResponseEntity.ok(response);
+    }
 
 }
