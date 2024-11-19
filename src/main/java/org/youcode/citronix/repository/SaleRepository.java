@@ -7,4 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SaleRepository extends JpaRepository<Sale, UUID> {
+    List<Sale> findByHarvestId(UUID harvestId);
 }

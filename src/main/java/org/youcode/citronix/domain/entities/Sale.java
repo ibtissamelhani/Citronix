@@ -24,4 +24,8 @@ public class Sale {
 
     @ManyToOne
     private Harvest harvest;
+
+    public double calculateRevenue() {
+        return unitPrice * quantity;
+    }
 }

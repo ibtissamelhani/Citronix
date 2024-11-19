@@ -6,6 +6,7 @@ import org.youcode.citronix.domain.entities.Harvest;
 import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.repository.SaleRepository;
 import org.youcode.citronix.service.HarvestService;
+import org.youcode.citronix.service.SaleService;
 import org.youcode.citronix.web.exception.InvalidCredentialsException;
 
 import java.util.List;
@@ -13,11 +14,12 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class SaleServiceImpl {
+public class SaleServiceImpl implements SaleService {
 
     private final SaleRepository saleRepository;
     private HarvestService harvestService;
 
+    @Override
     public Sale createSale(UUID harvestId, Sale sale) {
         Harvest harvest = harvestService.findById(harvestId);
 
@@ -30,5 +32,6 @@ public class SaleServiceImpl {
 
         return savedSale;
     }
+
 
 }
