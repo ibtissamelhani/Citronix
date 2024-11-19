@@ -90,6 +90,6 @@ public class TreeServiceImpl implements TreeService {
         Tree tree = findById(id);
         int age = tree.getAge();
         double productivity = tree.getProductivity();
-        return new TreeDetailsDTO(tree.getPlantingDate(),age,productivity);
+        return new TreeDetailsDTO(tree.getPlantingDate(),age,productivity,tree.getField());
     }
 }
