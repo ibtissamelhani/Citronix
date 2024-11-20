@@ -35,11 +35,8 @@ public class TreeServiceImpl implements TreeService {
 
         validateTreeDensity(field);
 
-        Tree treeToSave = Tree.builder()
-                .plantingDate(tree.getPlantingDate())
-                .field(field)
-                .build();
-        return treeRepository.save(treeToSave);
+        tree.setField(field);
+        return treeRepository.save(tree);
     }
 
     private void validatePlantingDate(LocalDate plantingDate) {

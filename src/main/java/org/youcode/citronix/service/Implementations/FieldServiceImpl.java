@@ -27,18 +27,13 @@ public class FieldServiceImpl implements FieldService {
 
     @Transactional
     @Override
-    public Field addField(FieldRequestDTO fieldRequestDTO) {
-        Farm farm = farmService.getFarmById(fieldRequestDTO.getFarmId());
+    public Field addField(Field field) {
+        Farm farm = farmService.getFarmById(field.getFarm().getId());
 
-        validateField(farm,fieldRequestDTO.getArea());
-
-        Field field = Field.builder()
-                .area(fieldRequestDTO.getArea())
-                .farm(farm)
-                .build();
+        validateField(farm,field.getArea());
 
         farm.getFields().add(field);
-
+        field.setFarm(farm);
         return fieldRepository.save(field);
     }
 
