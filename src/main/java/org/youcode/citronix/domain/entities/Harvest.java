@@ -3,6 +3,7 @@ package org.youcode.citronix.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.youcode.citronix.domain.enums.Season;
+import org.youcode.citronix.web.exception.InvalidCredentialsException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,5 +27,6 @@ public class Harvest {
 
     @OneToMany(mappedBy = "harvest")
     private List<HarvestDetail> harvestDetails;
+
 
 }

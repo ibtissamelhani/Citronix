@@ -22,11 +22,6 @@ databaseChangeLog:
                   name: unit_price
                   type: DOUBLE
               - column:
-                  constraints:
-                    nullable: false
-                  name: quantity
-                  type: DOUBLE
-              - column:
                   name: client
                   type: VARCHAR(255)
               - column:
