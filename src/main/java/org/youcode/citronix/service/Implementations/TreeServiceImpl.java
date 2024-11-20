@@ -88,8 +88,13 @@ public class TreeServiceImpl implements TreeService {
     @Override
     public TreeDetailsDTO getTreeDetails(UUID id) {
         Tree tree = findById(id);
-        int age = tree.getAge();
-        double productivity = tree.getProductivity();
-        return new TreeDetailsDTO(tree.getPlantingDate(),age,productivity,tree.getField());
+        return TreeDetailsDTO.builder()
+                .plantingDate(tree.getPlantingDate())
+                .age(tree.getAge())
+                .productivity(tree.getProductivity())
+                .farmName(tree.getField().getFarm().getName())
+                .farmLocation(tree.getField().getFarm().getLocation())
+                .fieldId(tree.getField().getId())
+                .build();
     }
 }
