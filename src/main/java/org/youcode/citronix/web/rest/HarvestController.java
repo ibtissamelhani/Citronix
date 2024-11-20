@@ -39,16 +39,6 @@ public class HarvestController {
         return ResponseEntity.ok("harvest deleted successfully");
     }
 
-
-    @GetMapping("/field/{fieldId}")
-    public ResponseEntity<List<HarvestResponseVM>> findHarvestsByFieldId(@PathVariable UUID fieldId) {
-        List<Harvest> harvests = harvestService.findHarvestsByFieldId(fieldId);
-        List<HarvestResponseVM> harvestResponseVMS = harvests.stream()
-                .map(HarvestResponseVM::fromEntity)
-                .toList();
-        return ResponseEntity.ok(harvestResponseVMS);
-    }
-
     @GetMapping("/season/{season}")
     public ResponseEntity<List<HarvestResponseVM>> getHarvestsBySeason(@PathVariable Season season) {
         List<Harvest> harvests = harvestService.getHarvestsBySeason(season);
