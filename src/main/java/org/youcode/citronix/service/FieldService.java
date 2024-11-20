@@ -7,6 +7,7 @@ import org.youcode.citronix.domain.entities.Field;
 import java.util.UUID;
 
 public interface FieldService {
+
     Field addField(Field field);
     Field getFieldById(UUID id);
     void deleteField(UUID id);
