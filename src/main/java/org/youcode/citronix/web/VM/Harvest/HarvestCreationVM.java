@@ -11,9 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HarvestCreationVM {
-    @NotNull(message = "Season is required.")
-    private Season season;
-
     @NotNull(message = "Date is required.")
     private LocalDate date;
 }

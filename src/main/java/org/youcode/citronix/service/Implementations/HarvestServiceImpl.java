@@ -12,6 +12,7 @@ import org.youcode.citronix.repository.HarvestDetailRepository;
 import org.youcode.citronix.repository.HarvestRepository;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.HarvestService;
+import org.youcode.citronix.util.SeasonUtils;
 import org.youcode.citronix.web.exception.Harvest.HarvestAlreadyExistException;
 import org.youcode.citronix.web.exception.Harvest.HarvestNotFoundException;
 import org.youcode.citronix.web.exception.InvalidCredentialsException;
@@ -33,13 +34,10 @@ public class HarvestServiceImpl implements HarvestService {
     public Harvest createHarvest(UUID fieldId, Harvest harvest) {
 
         Field fieldToHarvest = fieldService.getFieldById(fieldId);
-        boolean exist = harvestRepository.existsByFieldAndSeason(fieldToHarvest,harvest.getSeason());
-        if (exist){
-            throw new HarvestAlreadyExistException("A harvest already exists for this field and season.");
-        }
+        Season harvestSeason = SeasonUtils.getSeasonFromDate(harvest.getDate());
 
         List<Tree> trees = fieldToHarvest.getTrees().stream()
-                .filter(tree -> !harvestDetailRepository.existsByTreeAndHarvestSeason(tree, harvest.getSeason()))
+                .filter(tree -> !harvestDetailRepository.existsByTreeAndHarvestSeason(tree, harvestSeason))
                 .toList();
 
         if (trees.isEmpty()){
@@ -51,9 +49,8 @@ public class HarvestServiceImpl implements HarvestService {
                 .sum();
 
         Harvest harvestToSave = Harvest.builder()
-                .field(fieldToHarvest)
                 .date(harvest.getDate())
-                .season(harvest.getSeason())
+                .season(harvestSeason)
                 .totalQuantity(totalQuantity)
                 .build();
 
@@ -83,14 +80,6 @@ public class HarvestServiceImpl implements HarvestService {
     public void delete(UUID id) {
         Harvest harvestToDelete = findById(id);
         harvestRepository.delete(harvestToDelete);
-    }
-
-    @Override
-    public List<Harvest> findHarvestsByFieldId(UUID fieldId) {
-        if ( fieldId == null){
-            throw new InvalidCredentialsException("Field ID is Required");
-        }
-        return harvestRepository.findByFieldId(fieldId);
     }
 
     @Override

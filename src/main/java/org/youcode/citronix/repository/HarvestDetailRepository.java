@@ -8,6 +8,5 @@ import org.youcode.citronix.domain.enums.Season;
 import java.util.UUID;
 
 public interface HarvestDetailRepository extends JpaRepository<HarvestDetail, UUID> {
-
     boolean existsByTreeAndHarvestSeason(Tree tree, Season season);
 }
