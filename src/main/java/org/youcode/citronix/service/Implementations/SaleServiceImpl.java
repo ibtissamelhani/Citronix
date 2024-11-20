@@ -34,4 +34,15 @@ public class SaleServiceImpl implements SaleService {
     }
 
 
+    public List<Sale> getSalesByHarvestId(UUID harvestId) {
+        return saleRepository.findByHarvestId(harvestId);
+    }
+
+    public double calculateTotalRevenue(UUID harvestId) {
+        return saleRepository.findByHarvestId(harvestId)
+                .stream()
+                .mapToDouble(Sale::calculateRevenue)
+                .sum();
+    }
+
 }
