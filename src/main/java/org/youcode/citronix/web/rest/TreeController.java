@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
-import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.service.TreeService;
+import org.youcode.citronix.web.VM.Tree.TreeCreationVm;
+import org.youcode.citronix.web.VM.Tree.TreeResponseVM;
+import org.youcode.citronix.web.VM.mapper.TreeVMMapper;
 
 import java.util.UUID;
 
@@ -18,11 +20,14 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TreeController {
     private final TreeService treeService;
+    private final TreeVMMapper treeVMMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<Tree> saveTree(@RequestBody @Valid TreeRequestDTO treeRequestDTO) {
-        Tree savedTree = treeService.saveTree(treeRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedTree);
+    public ResponseEntity<TreeResponseVM> saveTree(@RequestBody @Valid TreeCreationVm treeCreationVm) {
+        Tree tree = treeVMMapper.toTree(treeCreationVm);
+        Tree savedTree = treeService.saveTree(tree);
+        TreeResponseVM treeResponseVM = treeVMMapper.toResponseVM(savedTree);
+        return ResponseEntity.status(HttpStatus.CREATED).body(treeResponseVM);
     }
 
     @GetMapping

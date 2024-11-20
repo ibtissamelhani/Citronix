@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
-import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.repository.TreeRepository;
@@ -29,12 +28,15 @@ public class TreeServiceImpl implements TreeService {
     private final FieldService fieldService;
 
     @Override
-    public Tree saveTree(TreeRequestDTO treeRequestDTO) {
-        validatePlantingDate(treeRequestDTO.getPlantingDate());
-        Field field = fieldService.getFieldById(treeRequestDTO.getFieldId());
+    public Tree saveTree(Tree tree) {
+
+        validatePlantingDate(tree.getPlantingDate());
+        Field field = fieldService.getFieldById(tree.getField().getId());
+
         validateTreeDensity(field);
+
         Tree treeToSave = Tree.builder()
-                .plantingDate(treeRequestDTO.getPlantingDate())
+                .plantingDate(tree.getPlantingDate())
                 .field(field)
                 .build();
         return treeRepository.save(treeToSave);

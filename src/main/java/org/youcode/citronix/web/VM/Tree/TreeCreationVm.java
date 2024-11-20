@@ -1,4 +1,4 @@
-package org.youcode.citronix.DTO.Tree;
+package org.youcode.citronix.web.VM.Tree;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TreeRequestDTO {
+public class TreeCreationVm {
     @NotNull(message = "Planting date is required.")
     private LocalDate plantingDate;
 
