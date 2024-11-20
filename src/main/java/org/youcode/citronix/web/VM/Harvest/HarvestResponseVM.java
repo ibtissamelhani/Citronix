@@ -18,7 +18,6 @@ public class HarvestResponseVM {
     private Season season;
     private LocalDate date;
     private double totalQuantity;
-    private FieldVM field;
 
     public static HarvestResponseVM fromEntity(Harvest harvest) {
         HarvestResponseVM vm = new HarvestResponseVM();
@@ -26,7 +25,6 @@ public class HarvestResponseVM {
         vm.setSeason(harvest.getSeason());
         vm.setDate(harvest.getDate());
         vm.setTotalQuantity(harvest.getTotalQuantity());
-        vm.setField(FieldVM.fromEntity(harvest.getField()));
         return vm;
     }
 }
