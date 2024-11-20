@@ -2,6 +2,7 @@ package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.youcode.citronix.domain.entities.Harvest;
 import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.repository.SaleRepository;
@@ -19,6 +20,7 @@ public class SaleServiceImpl implements SaleService {
     private final SaleRepository saleRepository;
     private HarvestService harvestService;
 
+    @Transactional
     @Override
     public Sale createSale(UUID harvestId, Sale sale) {
         Harvest harvest = harvestService.findById(harvestId);
@@ -28,9 +30,9 @@ public class SaleServiceImpl implements SaleService {
         }
 
         sale.setHarvest(harvest);
-        Sale savedSale = saleRepository.save(sale);
+        harvest.reduceTotalQuantity(sale.getQuantity());
 
-        return savedSale;
+        return saleRepository.save(sale);
     }
 
 

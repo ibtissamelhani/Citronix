@@ -3,6 +3,7 @@ package org.youcode.citronix.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.youcode.citronix.domain.enums.Season;
+import org.youcode.citronix.web.exception.InvalidCredentialsException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,5 +30,16 @@ public class Harvest {
 
     @ManyToOne
     private Field field;
+
+    public void reduceTotalQuantity(double saleQuantity) {
+        if (saleQuantity <= 0) {
+            throw new InvalidCredentialsException("Sale quantity must be positive.");
+        }
+        if (saleQuantity > this.totalQuantity) {
+            throw new IllegalArgumentException("Sale quantity exceeds available quantity of harvest.");
+        }
+
+        this.totalQuantity -= saleQuantity;
+    }
 
 }
