@@ -3,12 +3,15 @@ package org.youcode.citronix.service.Implementations;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.youcode.citronix.DTO.SaleDTO;
 import org.youcode.citronix.domain.entities.Harvest;
 import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.repository.SaleRepository;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.service.SaleService;
 import org.youcode.citronix.web.exception.Harvest.HarvestAlreadySoldException;
+import org.youcode.citronix.web.exception.InvalidCredentialsException;
+import org.youcode.citronix.web.exception.Sale.SaleNotFoundException;
 
 import java.util.UUID;
 
@@ -21,7 +24,7 @@ public class SaleServiceImpl implements SaleService {
 
     @Transactional
     @Override
-    public Sale createSale(UUID harvestId, Sale sale) {
+    public SaleDTO createSale(UUID harvestId, Sale sale) {
         Harvest harvest = harvestService.findById(harvestId);
         boolean alreadySold = saleRepository.existsByHarvest(harvest);
 
@@ -29,15 +32,32 @@ public class SaleServiceImpl implements SaleService {
             throw new HarvestAlreadySoldException("This harvest already has an associated sale.");
         }
 
+        if(sale.getDate().isBefore(harvest.getDate())){
+            throw new InvalidCredentialsException("Sale date cannot be earlier than the harvest date.");
+        }
         sale.setHarvest(harvest);
-        return saleRepository.save(sale);
+        Sale savedSale=  saleRepository.save(sale);
+        double revenue = savedSale.getUnitPrice() * harvest.getTotalQuantity();
+        return SaleDTO.builder()
+                .id(savedSale.getId())
+                .client(savedSale.getClient())
+                .unitPrice(savedSale.getUnitPrice())
+                .date(savedSale.getDate())
+                .revenue(revenue)
+                .build();
     }
 
-//    public double calculateTotalRevenue(UUID harvestId) {
-//        return saleRepository.findByHarvestId(harvestId)
-//                .stream()
-//                .mapToDouble(Sale::calculateRevenue)
-//                .sum();
-//    }
+    @Override
+    public Sale findById(UUID saleId) {
+        return saleRepository.findById(saleId)
+                .orElseThrow(() -> new SaleNotFoundException("Sale not found."));
+    }
+
+    @Override
+    public void deleteSale(UUID saleId) {
+        Sale sale = findById(saleId);
+        saleRepository.delete(sale);
+    }
+
 
 }

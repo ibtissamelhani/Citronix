@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.youcode.citronix.DTO.SaleDTO;
 import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.service.SaleService;
 import org.youcode.citronix.web.VM.Sale.SaleCreationVm;
@@ -21,9 +22,9 @@ public class SaleController {
     private final SaleCreationVMMapper saleCreationVMMapper;
 
     @PostMapping("/save/{harvestId}")
-    public ResponseEntity<Sale> saveTree(@PathVariable UUID harvestId, @RequestBody @Valid SaleCreationVm saleCreationVm) {
+    public ResponseEntity<SaleDTO> saveTree(@PathVariable UUID harvestId, @RequestBody @Valid SaleCreationVm saleCreationVm) {
         Sale saleToSave = saleCreationVMMapper.toSale(saleCreationVm);
-        Sale savedSale = saleService.createSale(harvestId,saleToSave);
+        SaleDTO savedSale = saleService.createSale(harvestId,saleToSave);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedSale);
     }
 
