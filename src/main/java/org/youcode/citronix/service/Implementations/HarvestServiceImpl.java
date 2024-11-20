@@ -88,4 +88,5 @@ public class HarvestServiceImpl implements HarvestService {
     public List<Harvest> getHarvestsBySeason(Season season) {
         return harvestRepository.findBySeason(season);
     }
+
 }

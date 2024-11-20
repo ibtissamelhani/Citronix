@@ -28,18 +28,5 @@ public class Harvest {
     @OneToMany(mappedBy = "harvest")
     private List<HarvestDetail> harvestDetails;
 
-    @ManyToOne
-    private Field field;
-
-    public void reduceTotalQuantity(double saleQuantity) {
-        if (saleQuantity <= 0) {
-            throw new InvalidCredentialsException("Sale quantity must be positive.");
-        }
-        if (saleQuantity > this.totalQuantity) {
-            throw new IllegalArgumentException("Sale quantity exceeds available quantity of harvest.");
-        }
-
-        this.totalQuantity -= saleQuantity;
-    }
 
 }

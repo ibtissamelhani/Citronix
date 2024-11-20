@@ -21,9 +21,6 @@ public class SaleCreationVm {
     @Positive(message = "unitPrice should be positive")
     private double unitPrice;
 
-    @NotNull(message = "quantity is required")
-    private double quantity;
-
     @NotBlank(message = "client name is required")
     private String client;
 }

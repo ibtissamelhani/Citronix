@@ -19,13 +19,9 @@ public class Sale {
     private UUID id;
     private LocalDate date;
     private double unitPrice;
-    private double quantity;
     private String client;
 
-    @ManyToOne
+    @OneToOne
     private Harvest harvest;
 
-    public double calculateRevenue() {
-        return unitPrice * quantity;
-    }
 }

@@ -8,9 +8,8 @@ import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.repository.SaleRepository;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.service.SaleService;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
+import org.youcode.citronix.web.exception.Harvest.HarvestAlreadySoldException;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,27 +23,21 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Sale createSale(UUID harvestId, Sale sale) {
         Harvest harvest = harvestService.findById(harvestId);
+        boolean alreadySold = saleRepository.existsByHarvest(harvest);
 
-        if (sale.getQuantity() > harvest.getTotalQuantity()) {
-            throw new InvalidCredentialsException("Sale quantity exceeds available harvest quantity.");
+        if (alreadySold){
+            throw new HarvestAlreadySoldException("This harvest already has an associated sale.");
         }
 
         sale.setHarvest(harvest);
-        harvest.reduceTotalQuantity(sale.getQuantity());
-
         return saleRepository.save(sale);
     }
 
-
-    public List<Sale> getSalesByHarvestId(UUID harvestId) {
-        return saleRepository.findByHarvestId(harvestId);
-    }
-
-    public double calculateTotalRevenue(UUID harvestId) {
-        return saleRepository.findByHarvestId(harvestId)
-                .stream()
-                .mapToDouble(Sale::calculateRevenue)
-                .sum();
-    }
+//    public double calculateTotalRevenue(UUID harvestId) {
+//        return saleRepository.findByHarvestId(harvestId)
+//                .stream()
+//                .mapToDouble(Sale::calculateRevenue)
+//                .sum();
+//    }
 
 }
