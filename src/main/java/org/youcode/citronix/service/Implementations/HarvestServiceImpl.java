@@ -35,9 +35,11 @@ public class HarvestServiceImpl implements HarvestService {
 
         Field fieldToHarvest = fieldService.getFieldById(fieldId);
         Season harvestSeason = SeasonUtils.getSeasonFromDate(harvest.getDate());
+        int harvestYear = harvest.getDate().getYear();
+
 
         List<Tree> trees = fieldToHarvest.getTrees().stream()
-                .filter(tree -> !harvestDetailRepository.existsByTreeAndHarvestSeason(tree, harvestSeason))
+                .filter(tree -> !harvestDetailRepository.existsByTreeAndSeasonAndYear(tree, harvestSeason,harvestYear))
                 .toList();
 
         if (trees.isEmpty()){
