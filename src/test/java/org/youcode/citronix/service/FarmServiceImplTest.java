@@ -279,6 +279,51 @@ class FarmServiceImplTest {
         verify(farmRepository, never()).save(any(Farm.class));
     }
 
+    @Test
+    void FarmService_deleteFarm_succeed() {
+        // Given
+        UUID farmId = UUID.randomUUID();
+        Farm existingFarm = Farm.builder()
+                .id(farmId)
+                .name("test")
+                .area(100)
+                .creationDate(LocalDate.now())
+                .location("location test")
+                .build();
+
+        when(farmRepository.findById(farmId)).thenReturn(Optional.of(existingFarm));
+
+        // When
+        farmService.deleteFarm(farmId);
+
+        // Then
+        verify(farmRepository).findById(farmId);
+        verify(farmRepository).delete(existingFarm);
+    }
+
+    @Test
+    void FarmService_deleteFarm_throwsInvalidCredentialsException_whenIdIsNull() {
+        // When & Then
+        assertThrows(InvalidCredentialsException.class,
+                () -> farmService.deleteFarm(null));
+        verify(farmRepository,never()).findById(any(UUID.class));
+        verify(farmRepository, never()).delete(any(Farm.class));
+    }
+
+    @Test
+    void FarmService_deleteFarm_throwsFarmNotFoundException() {
+
+        // Given
+        UUID farmId = UUID.randomUUID();
+        when(farmRepository.findById(farmId)).thenReturn(Optional.empty());
+
+        // When & Then
+        assertThrows(FarmNotFoundException.class,
+                () -> farmService.deleteFarm(farmId));
+        verify(farmRepository).findById(farmId);
+        verify(farmRepository, never()).delete(any(Farm.class));
+    }
+
 
 
     }
