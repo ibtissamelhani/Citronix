@@ -1,14 +1,13 @@
 package org.youcode.citronix.service;
 
 import org.springframework.data.domain.Page;
-import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
-import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
+import org.youcode.citronix.DTO.TreeDetailsDTO;
 import org.youcode.citronix.domain.entities.Tree;
 
 import java.util.UUID;
 
 public interface TreeService {
-    Tree saveTree(TreeRequestDTO treeRequestDTO);
+    Tree saveTree(Tree tree);
     Page<Tree> getAllTreesPaginated(int page, int size);
     Page<Tree> getAllTreesByFieldId(UUID fieldId,int page, int size);
     void delete(UUID id);

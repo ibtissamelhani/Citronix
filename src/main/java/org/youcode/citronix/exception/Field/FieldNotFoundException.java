@@ -1,4 +1,4 @@
-package org.youcode.citronix.web.exception.Field;
+package org.youcode.citronix.exception.Field;
 
 public class FieldNotFoundException extends RuntimeException {
     public FieldNotFoundException(String message) {

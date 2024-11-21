@@ -6,9 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.youcode.citronix.DTO.Field.FieldRequestDTO;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.service.FieldService;
+import org.youcode.citronix.web.VM.Field.FieldCreationVM;
+import org.youcode.citronix.web.VM.Field.FieldResponseVM;
+import org.youcode.citronix.web.VM.mapper.FieldVMMapper;
 
 import java.util.UUID;
 
@@ -18,11 +20,16 @@ import java.util.UUID;
 public class FieldController {
 
     private final FieldService fieldService;
+    private final FieldVMMapper fieldVMMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<Field> addField(@Valid @RequestBody FieldRequestDTO fieldRequestDTO) {
-        Field createdField = fieldService.addField(fieldRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdField);
+    public ResponseEntity<FieldResponseVM> addField(@Valid @RequestBody FieldCreationVM fieldCreationVM) {
+        Field fieldToSave = fieldVMMapper.toField(fieldCreationVM);
+
+        Field createdField = fieldService.addField(fieldToSave);
+
+        FieldResponseVM fieldResponseVM = fieldVMMapper.toFieldResponseVM(createdField);
+        return ResponseEntity.status(HttpStatus.CREATED).body(fieldResponseVM);
     }
 
     @GetMapping("/details/{fieldId}")

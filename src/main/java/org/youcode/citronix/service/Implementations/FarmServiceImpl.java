@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.repository.FarmRepository;
 import org.youcode.citronix.repository.FarmSearchRepository;
-import org.youcode.citronix.DTO.Farm.SearchFarmDTO;
+import org.youcode.citronix.DTO.SearchFarmDTO;
 import org.youcode.citronix.service.FarmService;
-import org.youcode.citronix.web.exception.Farm.FarmNotFoundException;
-import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Farm.FarmNotFoundException;
+import org.youcode.citronix.exception.Farm.InvalidFarmException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
 
 import java.util.List;
 import java.util.UUID;

@@ -6,15 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.youcode.citronix.DTO.Field.FieldRequestDTO;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.repository.FieldRepository;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.service.FieldService;
-import org.youcode.citronix.web.exception.Farm.FarmSizeException;
-import org.youcode.citronix.web.exception.Field.FieldNotFoundException;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Farm.FarmSizeException;
+import org.youcode.citronix.exception.Field.FieldNotFoundException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
 
 import java.util.UUID;
 
@@ -27,18 +26,13 @@ public class FieldServiceImpl implements FieldService {
 
     @Transactional
     @Override
-    public Field addField(FieldRequestDTO fieldRequestDTO) {
-        Farm farm = farmService.getFarmById(fieldRequestDTO.getFarmId());
+    public Field addField(Field field) {
+        Farm farm = farmService.getFarmById(field.getFarm().getId());
 
-        validateField(farm,fieldRequestDTO.getArea());
-
-        Field field = Field.builder()
-                .area(fieldRequestDTO.getArea())
-                .farm(farm)
-                .build();
+        validateField(farm,field.getArea());
 
         farm.getFields().add(field);
-
+        field.setFarm(farm);
         return fieldRepository.save(field);
     }
 

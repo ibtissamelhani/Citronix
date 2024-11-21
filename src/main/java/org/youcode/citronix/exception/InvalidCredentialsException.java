@@ -1,4 +1,4 @@
-package org.youcode.citronix.web.exception;
+package org.youcode.citronix.exception;
 
 public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException(String message) {

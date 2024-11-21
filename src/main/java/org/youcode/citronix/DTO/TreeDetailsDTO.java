@@ -1,7 +1,6 @@
-package org.youcode.citronix.DTO.Tree;
+package org.youcode.citronix.DTO;
 
 import lombok.*;
-import org.youcode.citronix.domain.entities.Field;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,5 +14,7 @@ public class TreeDetailsDTO {
     private LocalDate plantingDate;
     private int age;
     private double productivity;
-    private Field fieldId;
+    private String farmName;
+    private String farmLocation;
+    private UUID fieldId;
 }

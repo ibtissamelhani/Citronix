@@ -1,4 +1,4 @@
-package org.youcode.citronix.web.exception.Harvest;
+package org.youcode.citronix.exception.Harvest;
 
 public class HarvestNotFoundException extends RuntimeException {
     public HarvestNotFoundException(String message) {

@@ -5,17 +5,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
-import org.youcode.citronix.DTO.Tree.TreeRequestDTO;
+import org.youcode.citronix.DTO.TreeDetailsDTO;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.repository.TreeRepository;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.TreeService;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
-import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
-import org.youcode.citronix.web.exception.Tree.TreeDensityException;
-import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Tree.InvalidPlantingDateException;
+import org.youcode.citronix.exception.Tree.TreeDensityException;
+import org.youcode.citronix.exception.Tree.TreeNotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -29,15 +28,15 @@ public class TreeServiceImpl implements TreeService {
     private final FieldService fieldService;
 
     @Override
-    public Tree saveTree(TreeRequestDTO treeRequestDTO) {
-        validatePlantingDate(treeRequestDTO.getPlantingDate());
-        Field field = fieldService.getFieldById(treeRequestDTO.getFieldId());
+    public Tree saveTree(Tree tree) {
+
+        validatePlantingDate(tree.getPlantingDate());
+        Field field = fieldService.getFieldById(tree.getField().getId());
+
         validateTreeDensity(field);
-        Tree treeToSave = Tree.builder()
-                .plantingDate(treeRequestDTO.getPlantingDate())
-                .field(field)
-                .build();
-        return treeRepository.save(treeToSave);
+
+        tree.setField(field);
+        return treeRepository.save(tree);
     }
 
     private void validatePlantingDate(LocalDate plantingDate) {
@@ -88,8 +87,13 @@ public class TreeServiceImpl implements TreeService {
     @Override
     public TreeDetailsDTO getTreeDetails(UUID id) {
         Tree tree = findById(id);
-        int age = tree.getAge();
-        double productivity = tree.getProductivity();
-        return new TreeDetailsDTO(tree.getPlantingDate(),age,productivity,tree.getField());
+        return TreeDetailsDTO.builder()
+                .plantingDate(tree.getPlantingDate())
+                .age(tree.getAge())
+                .productivity(tree.getProductivity())
+                .farmName(tree.getField().getFarm().getName())
+                .farmLocation(tree.getField().getFarm().getLocation())
+                .fieldId(tree.getField().getId())
+                .build();
     }
 }
