@@ -1,4 +1,4 @@
-package org.youcode.citronix.DTO.Tree;
+package org.youcode.citronix.DTO;
 
 import lombok.*;
 

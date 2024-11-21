@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
+import org.youcode.citronix.DTO.TreeDetailsDTO;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.service.TreeService;
 import org.youcode.citronix.web.VM.Tree.TreeCreationVm;

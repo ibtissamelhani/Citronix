@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
+import org.youcode.citronix.DTO.TreeDetailsDTO;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.repository.TreeRepository;

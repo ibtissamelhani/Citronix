@@ -1,7 +1,6 @@
 package org.youcode.citronix.service;
 
 import org.springframework.data.domain.Page;
-import org.youcode.citronix.DTO.Field.FieldRequestDTO;
 import org.youcode.citronix.domain.entities.Field;
 
 import java.util.UUID;

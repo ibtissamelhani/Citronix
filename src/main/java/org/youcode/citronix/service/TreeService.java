@@ -1,7 +1,7 @@
 package org.youcode.citronix.service;
 
 import org.springframework.data.domain.Page;
-import org.youcode.citronix.DTO.Tree.TreeDetailsDTO;
+import org.youcode.citronix.DTO.TreeDetailsDTO;
 import org.youcode.citronix.domain.entities.Tree;
 
 import java.util.UUID;

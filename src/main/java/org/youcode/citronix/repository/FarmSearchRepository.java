@@ -1,7 +1,7 @@
 package org.youcode.citronix.repository;
 
 import org.youcode.citronix.domain.entities.Farm;
-import org.youcode.citronix.DTO.Farm.SearchFarmDTO;
+import org.youcode.citronix.DTO.SearchFarmDTO;
 
 import java.util.List;
 
