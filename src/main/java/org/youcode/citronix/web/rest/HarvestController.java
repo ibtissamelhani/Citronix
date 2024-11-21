@@ -10,7 +10,7 @@ import org.youcode.citronix.domain.enums.Season;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.web.VM.Harvest.HarvestCreationVM;
 import org.youcode.citronix.web.VM.Harvest.HarvestResponseVM;
-import org.youcode.citronix.web.VM.mapper.HarvestCreationVMMapper;
+import org.youcode.citronix.web.VM.mapper.HarvestVMMapper;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,16 +21,16 @@ import java.util.UUID;
 public class HarvestController {
 
     private final HarvestService harvestService;
-    private final HarvestCreationVMMapper harvestCreationVMMapper;
+    private final HarvestVMMapper harvestVMMapper;
 
     @PostMapping("/{fieldId}")
     public ResponseEntity<HarvestResponseVM> createHarvest(
             @PathVariable UUID fieldId,
             @Valid @RequestBody HarvestCreationVM harvestCreationVM) {
-        Harvest harvest = harvestCreationVMMapper.toHarvest(harvestCreationVM);
+        Harvest harvest = harvestVMMapper.toHarvest(harvestCreationVM);
         Harvest createdHarvest = harvestService.createHarvest(fieldId,harvest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(HarvestResponseVM.fromEntity(createdHarvest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(harvestVMMapper.toHarvestResponseVM(createdHarvest));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -43,7 +43,7 @@ public class HarvestController {
     public ResponseEntity<List<HarvestResponseVM>> getHarvestsBySeason(@PathVariable Season season) {
         List<Harvest> harvests = harvestService.getHarvestsBySeason(season);
         List<HarvestResponseVM> response = harvests.stream()
-                .map(HarvestResponseVM::fromEntity)
+                .map(harvestVMMapper::toHarvestResponseVM)
                 .toList();
         return ResponseEntity.ok(response);
     }
