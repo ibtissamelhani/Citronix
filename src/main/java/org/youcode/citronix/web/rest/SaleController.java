@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.youcode.citronix.DTO.SaleDTO;
 import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.service.SaleService;
 import org.youcode.citronix.web.VM.Sale.SaleCreationVm;
-import org.youcode.citronix.web.VM.mapper.SaleCreationVMMapper;
+import org.youcode.citronix.web.VM.Sale.SaleResponseVM;
+import org.youcode.citronix.web.VM.mapper.SaleVMMapper;
 
 import java.util.UUID;
 
@@ -19,13 +19,27 @@ import java.util.UUID;
 public class SaleController {
 
     private final SaleService saleService;
-    private final SaleCreationVMMapper saleCreationVMMapper;
+    private final SaleVMMapper saleVMMapper;
 
     @PostMapping("/save/{harvestId}")
-    public ResponseEntity<SaleDTO> saveTree(@PathVariable UUID harvestId, @RequestBody @Valid SaleCreationVm saleCreationVm) {
-        Sale saleToSave = saleCreationVMMapper.toSale(saleCreationVm);
-        SaleDTO savedSale = saleService.createSale(harvestId,saleToSave);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedSale);
+    public ResponseEntity<SaleResponseVM> saveTree(@PathVariable UUID harvestId, @RequestBody @Valid SaleCreationVm saleCreationVm) {
+        Sale saleToSave = saleVMMapper.toSale(saleCreationVm);
+        Sale savedSale = saleService.createSale(harvestId,saleToSave);
+        SaleResponseVM saleResponseVM = saleVMMapper.toSaleResponseVM(savedSale);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saleResponseVM);
+    }
+
+    @DeleteMapping("/delete/{saleId}")
+    public ResponseEntity<String> deleteSale(@PathVariable UUID saleId) {
+        saleService.deleteSale(saleId);
+        return ResponseEntity.ok("Sale deleted successfully");
+    }
+
+    @GetMapping("/details/{saleId}")
+    public ResponseEntity<SaleResponseVM> getSaleById(@PathVariable UUID saleId) {
+        Sale sale = saleService.findById(saleId);
+        SaleResponseVM saleResponseVM = saleVMMapper.toSaleResponseVM(sale);
+        return ResponseEntity.ok(saleResponseVM);
     }
 
 

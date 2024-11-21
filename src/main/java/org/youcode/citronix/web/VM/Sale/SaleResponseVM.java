@@ -1,4 +1,4 @@
-package org.youcode.citronix.DTO;
+package org.youcode.citronix.web.VM.Sale;
 
 import lombok.*;
 
@@ -10,10 +10,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SaleDTO {
+public class SaleResponseVM {
     private UUID id;
     private LocalDate date;
     private double unitPrice;
     private String client;
     private double revenue;
+    private double soldQuantity;
 }

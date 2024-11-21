@@ -3,7 +3,6 @@ package org.youcode.citronix.service.Implementations;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.youcode.citronix.DTO.SaleDTO;
 import org.youcode.citronix.domain.entities.Harvest;
 import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.repository.SaleRepository;
@@ -24,7 +23,7 @@ public class SaleServiceImpl implements SaleService {
 
     @Transactional
     @Override
-    public SaleDTO createSale(UUID harvestId, Sale sale) {
+    public Sale createSale(UUID harvestId, Sale sale) {
         Harvest harvest = harvestService.findById(harvestId);
         boolean alreadySold = saleRepository.existsByHarvest(harvest);
 
@@ -36,19 +35,14 @@ public class SaleServiceImpl implements SaleService {
             throw new InvalidCredentialsException("Sale date cannot be earlier than the harvest date.");
         }
         sale.setHarvest(harvest);
-        Sale savedSale=  saleRepository.save(sale);
-        double revenue = savedSale.getUnitPrice() * harvest.getTotalQuantity();
-        return SaleDTO.builder()
-                .id(savedSale.getId())
-                .client(savedSale.getClient())
-                .unitPrice(savedSale.getUnitPrice())
-                .date(savedSale.getDate())
-                .revenue(revenue)
-                .build();
+        return saleRepository.save(sale);
     }
 
     @Override
     public Sale findById(UUID saleId) {
+        if (saleId == null){
+            throw new InvalidCredentialsException("sale Id is required");
+        }
         return saleRepository.findById(saleId)
                 .orElseThrow(() -> new SaleNotFoundException("Sale not found."));
     }
