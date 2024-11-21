@@ -211,5 +211,74 @@ class FarmServiceImplTest {
                 ()->farmService.getFarmById(id));
         verify(farmRepository).findById(id);
     }
+    @Test
+    void FarmService_updateFarm_succeed(){
+
+        //Given
+        UUID farmId = UUID.randomUUID();
+        Farm existingFarm = Farm.builder()
+                .id(farmId)
+                .name("old name")
+                .area(200)
+                .creationDate(LocalDate.now())
+                .location("old location")
+                .build();
+
+        Farm farm = Farm.builder()
+                .id(null)
+                .name("new name")
+                .area(200)
+                .creationDate(LocalDate.now())
+                .location("new location")
+                .build();
+
+        Farm updatedFarm = Farm.builder()
+                .id(farmId)
+                .name("new name")
+                .area(250)
+                .creationDate(LocalDate.now())
+                .location("new location")
+                .build();
+
+        when(farmRepository.findById(farmId)).thenReturn(Optional.of(existingFarm));
+        when(farmRepository.save(any(Farm.class))).thenReturn(updatedFarm);
+
+        //When
+        Farm result = farmService.updateFarm(farmId, farm);
+
+        //Then
+        assertNotNull(result);
+        verify(farmRepository).findById(farmId);
+        verify(farmRepository).save(any(Farm.class));
+    }
+
+    @Test
+    void FarmService_updateFarm_throwsInvalidCredentialsException_whenIdIsNull(){
+        UUID farmId = null;
+        Farm farm = Farm.builder()
+                .name("Farm Name")
+                .area(100)
+                .location("Farm Location")
+                .build();
+
+        // When & Then
+        assertThrows(InvalidCredentialsException.class,
+                () -> farmService.updateFarm(farmId, farm));
+
+        verify(farmRepository, never()).save(any(Farm.class));
+    }
+    @Test
+    void FarmService_updateFarm_throwsInvalidFarmException() {
+        // Given
+        UUID farmId = UUID.randomUUID();
+
+        when(farmRepository.findById(farmId)).thenReturn(Optional.of(new Farm()));
+
+        // When & Then
+        assertThrows(InvalidFarmException.class, () -> farmService.updateFarm(farmId, null));
+        verify(farmRepository, never()).save(any(Farm.class));
+    }
+
+
 
     }
