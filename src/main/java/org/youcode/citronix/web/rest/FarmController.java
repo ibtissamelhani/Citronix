@@ -3,6 +3,7 @@ package org.youcode.citronix.web.rest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,8 @@ import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.DTO.SearchFarmDTO;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.web.VM.Farm.FarmRequestVM;
-import org.youcode.citronix.web.VM.mapper.FarmRequestVMMapper;
+import org.youcode.citronix.web.VM.Farm.FarmResponseVM;
+import org.youcode.citronix.web.VM.mapper.FarmVMMapper;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,39 +23,47 @@ import java.util.UUID;
 public class FarmController {
 
     private final FarmService farmService;
-    private final FarmRequestVMMapper farmRequestVMMapper;
+    private final FarmVMMapper farmVMMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<Farm> saveFarm(@RequestBody @Valid FarmRequestVM farmRequestVM) {
-        Farm farmToSave = farmRequestVMMapper.toFarm(farmRequestVM);
+    public ResponseEntity<FarmResponseVM> saveFarm(@RequestBody @Valid FarmRequestVM farmRequestVM) {
+        Farm farmToSave = farmVMMapper.toFarm(farmRequestVM);
         Farm savedFarm = farmService.save(farmToSave);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedFarm);
+        return ResponseEntity.status(HttpStatus.CREATED).body(farmVMMapper.toFarmResponseVM(savedFarm));
     }
 
     @GetMapping
-    public ResponseEntity<List<Farm>> getAllFarms() {
+    public ResponseEntity<List<FarmResponseVM>> getAllFarms() {
         List<Farm> farms = farmService.getAllFarms();
-        return ResponseEntity.ok(farms);
+        List<FarmResponseVM> farmResponseVMS = farms.stream()
+                .map(farmVMMapper::toFarmResponseVM)
+                .toList();
+        return ResponseEntity.ok(farmResponseVMS);
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<Farm>> getFarmsWithPagination(
+    public ResponseEntity<Page<FarmResponseVM>> getFarmsWithPagination(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+
         Page<Farm> farmPage = farmService.getFarmsWithPagination(page,size);
-        return ResponseEntity.ok(farmPage);
+        List<FarmResponseVM> farmResponseVMList = farmPage.stream().map(farmVMMapper::toFarmResponseVM).toList();
+        Page<FarmResponseVM> farmResponseVMPage = new PageImpl<>(farmResponseVMList, farmPage.getPageable(), farmPage.getTotalElements());
+
+        return ResponseEntity.ok(farmResponseVMPage);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Farm> getFarmById(@PathVariable UUID id) {
-        return ResponseEntity.ok(farmService.getFarmById(id));
+    @GetMapping("/details/{id}")
+    public ResponseEntity<FarmResponseVM> getFarmById(@PathVariable UUID id) {
+        Farm farm = farmService.getFarmById(id);
+        return ResponseEntity.ok(farmVMMapper.toFarmResponseVM(farm));
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Farm> updateFarm(@RequestParam UUID id, @Valid @RequestBody FarmRequestVM farmRequestVM) {
-        Farm farmToUpdate = farmRequestVMMapper.toFarm(farmRequestVM);
+    public ResponseEntity<FarmResponseVM> updateFarm(@RequestParam UUID id, @Valid @RequestBody FarmRequestVM farmRequestVM) {
+        Farm farmToUpdate = farmVMMapper.toFarm(farmRequestVM);
         Farm updatedFarm = farmService.updateFarm(id, farmToUpdate);
-        return ResponseEntity.ok(updatedFarm);
+        return ResponseEntity.ok(farmVMMapper.toFarmResponseVM(updatedFarm));
     }
 
     @DeleteMapping("/delete")
@@ -63,8 +73,11 @@ public class FarmController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Farm>> search(@RequestBody SearchFarmDTO searchFarmDTO){
+    public ResponseEntity<List<FarmResponseVM>> search(@RequestBody SearchFarmDTO searchFarmDTO){
         List<Farm> farmList= farmService.search(searchFarmDTO);
-        return ResponseEntity.ok().body(farmList);
+        List<FarmResponseVM> farmResponseVMS = farmList.stream()
+                .map(farmVMMapper::toFarmResponseVM)
+                .toList();
+        return ResponseEntity.ok().body(farmResponseVMS);
     }
 }
