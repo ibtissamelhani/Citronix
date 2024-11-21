@@ -2,9 +2,12 @@ package org.youcode.citronix.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +29,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 
 class FarmServiceImplTest {
 
@@ -287,7 +291,7 @@ class FarmServiceImplTest {
         UUID farmId = UUID.randomUUID();
         Farm existingFarm = Farm.builder()
                 .id(farmId)
-                .name("test")
+                .name("test farm")
                 .area(100)
                 .creationDate(LocalDate.now())
                 .location("location test")
@@ -331,13 +335,13 @@ class FarmServiceImplTest {
 
         // Given
         SearchFarmDTO searchFarmDTO = new SearchFarmDTO();
-        searchFarmDTO.setName("farm A");
+        searchFarmDTO.setName("farmC");
         searchFarmDTO.setLocation("Location A");
 
         List<Farm> expectedFarms = List.of(
                 Farm.builder()
                         .id(UUID.randomUUID())
-                        .name("farm A")
+                        .name("farmC")
                         .location("Location A")
                         .area(100)
                         .creationDate(LocalDate.now())
@@ -352,7 +356,7 @@ class FarmServiceImplTest {
         // Then
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("farm A", result.get(0).getName());
+        assertEquals("farmC", result.get(0).getName());
         verify(farmSearchRepository).findByCriteria(searchFarmDTO);
     }
 
