@@ -19,6 +19,7 @@ import org.youcode.citronix.repository.FarmSearchRepository;
 import org.youcode.citronix.service.Implementations.FarmServiceImpl;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -326,7 +327,7 @@ class FarmServiceImplTest {
     }
 
     @Test
-    void FarmService_search_returnsFarms() {
+    void FarmService_search_returnsFarms_sendingAllArgs() {
 
         // Given
         SearchFarmDTO searchFarmDTO = new SearchFarmDTO();
@@ -352,6 +353,111 @@ class FarmServiceImplTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("farm A", result.get(0).getName());
+        verify(farmSearchRepository).findByCriteria(searchFarmDTO);
+    }
+
+    @Test
+    void FarmService_search_returnsFarms_sendingOnlyName() {
+
+        // Given
+        SearchFarmDTO searchFarmDTO = new SearchFarmDTO();
+        searchFarmDTO.setName("farm A");
+
+        List<Farm> expectedFarms = List.of(
+                Farm.builder()
+                        .id(UUID.randomUUID())
+                        .name("farm A")
+                        .location("Location A")
+                        .area(100)
+                        .creationDate(LocalDate.now())
+                        .build()
+        );
+
+        when(farmSearchRepository.findByCriteria(searchFarmDTO)).thenReturn(expectedFarms);
+
+        // When
+        List<Farm> result = farmService.search(searchFarmDTO);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("farm A", result.get(0).getName());
+        verify(farmSearchRepository).findByCriteria(searchFarmDTO);
+    }
+
+    @Test
+    void FarmService_search_returnsFarms_sendingOnlyLocation() {
+
+        // Given
+        SearchFarmDTO searchFarmDTO = new SearchFarmDTO();
+        searchFarmDTO.setLocation("Location A");
+
+        List<Farm> expectedFarms = List.of(
+                Farm.builder()
+                        .id(UUID.randomUUID())
+                        .name("farm A")
+                        .location("Location A")
+                        .area(100)
+                        .creationDate(LocalDate.now())
+                        .build()
+        );
+
+        when(farmSearchRepository.findByCriteria(searchFarmDTO)).thenReturn(expectedFarms);
+
+        // When
+        List<Farm> result = farmService.search(searchFarmDTO);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Location A",result.get(0).getLocation());
+        assertEquals("farm A", result.get(0).getName());
+        verify(farmSearchRepository).findByCriteria(searchFarmDTO);
+    }
+
+    @Test
+    void FarmService_search_returnsAllFarms_causedByEmptyCriteria() {
+
+        // Given
+        SearchFarmDTO searchFarmDTO = new SearchFarmDTO();
+        Farm farm1 = Farm.builder()
+                .id(UUID.randomUUID())
+                .name("Farm A")
+                .location("Location A")
+                .build();
+        Farm farm2 = Farm.builder()
+                .id(UUID.randomUUID())
+                .name("Farm B")
+                .location("Location B")
+                .build();
+        List<Farm> expectedFarms = List.of(farm1,farm2);
+        when(farmSearchRepository.findByCriteria(searchFarmDTO)).thenReturn(expectedFarms);
+
+        // When
+        List<Farm> result = farmService.search(searchFarmDTO);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        verify(farmSearchRepository).findByCriteria(searchFarmDTO);
+    }
+
+    @Test
+    void FarmService_search_returnsEmptyList() {
+
+        // Given
+        SearchFarmDTO searchFarmDTO = new SearchFarmDTO();
+        searchFarmDTO.setName("Nonexistent Farm");
+        searchFarmDTO.setLocation("Nonexistent Location");
+
+        when(farmSearchRepository.findByCriteria(searchFarmDTO)).thenReturn(Collections.emptyList());
+
+        // When
+        List<Farm> result = farmService.search(searchFarmDTO);
+
+        // Then
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
         verify(farmSearchRepository).findByCriteria(searchFarmDTO);
     }
 
