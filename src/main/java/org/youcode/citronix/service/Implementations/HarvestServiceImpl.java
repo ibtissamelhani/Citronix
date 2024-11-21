@@ -13,10 +13,9 @@ import org.youcode.citronix.repository.HarvestRepository;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.util.SeasonUtils;
-import org.youcode.citronix.web.exception.Harvest.HarvestAlreadyExistException;
-import org.youcode.citronix.web.exception.Harvest.HarvestNotFoundException;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
-import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
+import org.youcode.citronix.exception.Harvest.HarvestNotFoundException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Tree.TreeNotFoundException;
 
 import java.util.List;
 import java.util.UUID;

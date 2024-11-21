@@ -1,4 +1,4 @@
-package org.youcode.citronix.web.exception.Farm;
+package org.youcode.citronix.exception.Farm;
 
 public class FarmSizeException extends RuntimeException {
     public FarmSizeException(String message) {

@@ -1,21 +1,22 @@
-package org.youcode.citronix.web.exception;
+package org.youcode.citronix.web.errors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.youcode.citronix.web.exception.Farm.FarmNotFoundException;
-import org.youcode.citronix.web.exception.Farm.FarmSizeException;
-import org.youcode.citronix.web.exception.Farm.InvalidFarmException;
-import org.youcode.citronix.web.exception.Field.FieldNotFoundException;
-import org.youcode.citronix.web.exception.Harvest.HarvestAlreadyExistException;
-import org.youcode.citronix.web.exception.Harvest.HarvestAlreadySoldException;
-import org.youcode.citronix.web.exception.Harvest.HarvestNotFoundException;
-import org.youcode.citronix.web.exception.Sale.SaleNotFoundException;
-import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
-import org.youcode.citronix.web.exception.Tree.TreeDensityException;
-import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
+import org.youcode.citronix.exception.Farm.FarmNotFoundException;
+import org.youcode.citronix.exception.Farm.FarmSizeException;
+import org.youcode.citronix.exception.Farm.InvalidFarmException;
+import org.youcode.citronix.exception.Field.FieldNotFoundException;
+import org.youcode.citronix.exception.Harvest.HarvestAlreadyExistException;
+import org.youcode.citronix.exception.Harvest.HarvestAlreadySoldException;
+import org.youcode.citronix.exception.Harvest.HarvestNotFoundException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Sale.SaleNotFoundException;
+import org.youcode.citronix.exception.Tree.InvalidPlantingDateException;
+import org.youcode.citronix.exception.Tree.TreeDensityException;
+import org.youcode.citronix.exception.Tree.TreeNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;

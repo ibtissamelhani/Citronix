@@ -11,9 +11,9 @@ import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.repository.FieldRepository;
 import org.youcode.citronix.service.FarmService;
 import org.youcode.citronix.service.FieldService;
-import org.youcode.citronix.web.exception.Farm.FarmSizeException;
-import org.youcode.citronix.web.exception.Field.FieldNotFoundException;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Farm.FarmSizeException;
+import org.youcode.citronix.exception.Field.FieldNotFoundException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
 
 import java.util.UUID;
 

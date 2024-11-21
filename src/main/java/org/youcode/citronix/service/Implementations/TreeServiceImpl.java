@@ -11,10 +11,10 @@ import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.repository.TreeRepository;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.TreeService;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
-import org.youcode.citronix.web.exception.Tree.InvalidPlantingDateException;
-import org.youcode.citronix.web.exception.Tree.TreeDensityException;
-import org.youcode.citronix.web.exception.Tree.TreeNotFoundException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Tree.InvalidPlantingDateException;
+import org.youcode.citronix.exception.Tree.TreeDensityException;
+import org.youcode.citronix.exception.Tree.TreeNotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;

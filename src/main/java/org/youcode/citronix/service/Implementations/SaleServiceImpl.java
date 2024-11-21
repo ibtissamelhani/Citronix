@@ -9,9 +9,9 @@ import org.youcode.citronix.domain.entities.Sale;
 import org.youcode.citronix.repository.SaleRepository;
 import org.youcode.citronix.service.HarvestService;
 import org.youcode.citronix.service.SaleService;
-import org.youcode.citronix.web.exception.Harvest.HarvestAlreadySoldException;
-import org.youcode.citronix.web.exception.InvalidCredentialsException;
-import org.youcode.citronix.web.exception.Sale.SaleNotFoundException;
+import org.youcode.citronix.exception.Harvest.HarvestAlreadySoldException;
+import org.youcode.citronix.exception.InvalidCredentialsException;
+import org.youcode.citronix.exception.Sale.SaleNotFoundException;
 
 import java.util.UUID;
 
