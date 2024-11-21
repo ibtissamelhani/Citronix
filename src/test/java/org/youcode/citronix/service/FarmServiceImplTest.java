@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.youcode.citronix.DTO.SearchFarmDTO;
 import org.youcode.citronix.domain.entities.Farm;
 import org.youcode.citronix.exception.Farm.FarmNotFoundException;
 import org.youcode.citronix.exception.Farm.InvalidFarmException;
@@ -324,6 +325,34 @@ class FarmServiceImplTest {
         verify(farmRepository, never()).delete(any(Farm.class));
     }
 
+    @Test
+    void FarmService_search_returnsFarms() {
 
+        // Given
+        SearchFarmDTO searchFarmDTO = new SearchFarmDTO();
+        searchFarmDTO.setName("farm A");
+        searchFarmDTO.setLocation("Location A");
+
+        List<Farm> expectedFarms = List.of(
+                Farm.builder()
+                        .id(UUID.randomUUID())
+                        .name("farm A")
+                        .location("Location A")
+                        .area(100)
+                        .creationDate(LocalDate.now())
+                        .build()
+        );
+
+        when(farmSearchRepository.findByCriteria(searchFarmDTO)).thenReturn(expectedFarms);
+
+        // When
+        List<Farm> result = farmService.search(searchFarmDTO);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("farm A", result.get(0).getName());
+        verify(farmSearchRepository).findByCriteria(searchFarmDTO);
+    }
 
     }
