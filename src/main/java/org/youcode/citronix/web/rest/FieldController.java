@@ -3,6 +3,7 @@ package org.youcode.citronix.web.rest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.youcode.citronix.web.VM.Field.FieldCreationVM;
 import org.youcode.citronix.web.VM.Field.FieldResponseVM;
 import org.youcode.citronix.web.VM.mapper.FieldVMMapper;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,9 +35,9 @@ public class FieldController {
     }
 
     @GetMapping("/details/{fieldId}")
-    public ResponseEntity<Field> getFieldById(@PathVariable UUID fieldId) {
+    public ResponseEntity<FieldResponseVM> getFieldById(@PathVariable UUID fieldId) {
         Field field = fieldService.getFieldById(fieldId);
-        return ResponseEntity.ok(field);
+        return ResponseEntity.ok(fieldVMMapper.toFieldResponseVM(field));
     }
 
     @DeleteMapping("/delete/{fieldId}")
@@ -45,24 +47,30 @@ public class FieldController {
     }
 
     @GetMapping("/{farmId}")
-    public ResponseEntity<Page<Field>> findAllByFarmId(@PathVariable UUID farmId,
+    public ResponseEntity<Page<FieldResponseVM>> findAllByFarmId(@PathVariable UUID farmId,
                                                        @RequestParam(defaultValue = "0") int page,
                                                        @RequestParam(defaultValue = "10") int size ) {
         Page<Field> fields = fieldService.findAllByFarmId(farmId, page,size);
-        return new ResponseEntity<>(fields, HttpStatus.OK);
+        List<FieldResponseVM> fieldResponseVMS = fields.stream().map(fieldVMMapper::toFieldResponseVM).toList();
+        Page<FieldResponseVM>   fieldResponseVMPage = new PageImpl<>(fieldResponseVMS, fields.getPageable(), fields.getTotalElements());
+
+        return new ResponseEntity<>(fieldResponseVMPage, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Page<Field>> getFarmsWithPagination(
+    public ResponseEntity<Page<FieldResponseVM>> getFarmsWithPagination(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Page<Field> fieldPage = fieldService.getFieldsWithPagination(page,size);
-        return ResponseEntity.ok(fieldPage);
+        List<FieldResponseVM> fieldResponseVMS = fieldPage.stream().map(fieldVMMapper::toFieldResponseVM).toList();
+        Page<FieldResponseVM>   fieldResponseVMPage = new PageImpl<>(fieldResponseVMS, fieldPage.getPageable(), fieldPage.getTotalElements());
+
+        return ResponseEntity.ok(fieldResponseVMPage);
     }
 
     @PutMapping("/update/{fieldId}")
-    public ResponseEntity<Field> updateField(@PathVariable UUID fieldId, @RequestBody double newArea) {
+    public ResponseEntity<FieldResponseVM> updateField(@PathVariable UUID fieldId, @RequestBody double newArea) {
         Field createdField = fieldService.updateField(fieldId,newArea);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdField);
+        return ResponseEntity.status(HttpStatus.CREATED).body(fieldVMMapper.toFieldResponseVM(createdField));
     }
 }
