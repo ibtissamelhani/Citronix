@@ -4,15 +4,15 @@ Citronix is a farm management application designed to help farmers efficiently m
 ## 📋 Features
 
 **Farm Management**
-Create, update, and view farm details (name, location, area, creation date).
-Multi-criteria search using the Criteria Builder.
+- Create, update, and view farm details (name, location, area, creation date).
+- Multi-criteria search using the Criteria Builder.
 
 **Field Management**
-Allocate fields to farms with defined areas.
-Validate field areas:
-Minimum: 0.1 hectares.
-Maximum: 50% of the total farm area.
-Limit farms to a maximum of 10 fields.
+- Allocate fields to farms with defined areas.
+- Validate field areas:
+- Minimum: 0.1 hectares.
+- Maximum: 50% of the total farm area.
+- Limit farms to a maximum of 10 fields.
 
 **Tree Management**
 Track tree planting dates, ages, and associated fields.
