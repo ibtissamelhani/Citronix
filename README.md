@@ -15,21 +15,21 @@ Citronix is a farm management application designed to help farmers efficiently m
 - Limit farms to a maximum of 10 fields.
 
 **Tree Management**
-Track tree planting dates, ages, and associated fields.
-Calculate tree productivity based on age:
-Young trees (< 3 years): 2.5 kg/season.
-Mature trees (3-10 years): 12 kg/season.
-Old trees (> 10 years): 20 kg/season.
-Non-productive trees (> 20 years): 0 kg.
+- Track tree planting dates, ages, and associated fields.
+- Calculate tree productivity based on age:
+- Young trees (< 3 years): 2.5 kg/season.
+- Mature trees (3-10 years): 12 kg/season.
+- Old trees (> 10 years): 20 kg/season.
+- Non-productive trees (> 20 years): 0 kg.
 
 **Harvest Management**
-Track harvests by season (Winter, Spring, Summer, Autumn).
-Limit to one harvest per season.
-Record harvest date and total quantity harvested.
+- Track harvests by season (Winter, Spring, Summer, Autumn).
+- Limit to one harvest per season.
+- Record harvest date and total quantity harvested.
 
 **Sales Management**
-Record sales with details (date, unit price, client, associated harvest).
-Automatically calculate revenue: Revenue = quantity × unit price.
+- Record sales with details (date, unit price, client, associated harvest).
+- Automatically calculate revenue: Revenue = quantity × unit price.
 
 ## ⚙️ Technologies Used
 **Backend:** Spring Boot (Java 17)
@@ -42,13 +42,13 @@ Automatically calculate revenue: Revenue = quantity × unit price.
 
 ## 📂 Project Structure
 
-src/main/java
-├── org.youcode.citronix
-    ├── domain/     # Entities and model classes
-    ├── dto/        # Data Transfer Objects (DTOs)
-    ├── exception/  # Custom exception classes
-    ├── repository/ # JPA repositories
-    ├── service/    # Service layer
-    ├── util/       # Utility classes 
-    ├── web/        # REST controllers
-    └── CitronixApplication.java  # Main Spring Boot application
+- src/main/java
+- ├── org.youcode.citronix
+-     ├── domain/     # Entities and model classes
+-     ├── dto/        # Data Transfer Objects (DTOs)
+-     ├── exception/  # Custom exception classes
+-     ├── repository/ # JPA repositories
+-     ├── service/    # Service layer
+-     ├── util/       # Utility classes 
+-     ├── web/        # REST controllers
+-     └── CitronixApplication.java  # Main Spring Boot application
