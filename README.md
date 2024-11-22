@@ -42,13 +42,13 @@ Citronix is a farm management application designed to help farmers efficiently m
 
 ## 📂 Project Structure
 
-- src/main/java
-- ├── org.youcode.citronix
--     ├── domain/     # Entities and model classes
--     ├── dto/        # Data Transfer Objects (DTOs)
--     ├── exception/  # Custom exception classes
--     ├── repository/ # JPA repositories
--     ├── service/    # Service layer
--     ├── util/       # Utility classes 
--     ├── web/        # REST controllers
--     └── CitronixApplication.java  # Main Spring Boot application
+ src/main/java
+ ├── org.youcode.citronix
+     ├── domain/     # Entities and model classes
+     ├── dto/        # Data Transfer Objects (DTOs)
+     ├── exception/  # Custom exception classes
+     ├── repository/ # JPA repositories
+     ├── service/    # Service layer
+     ├── util/       # Utility classes 
+     ├── web/        # REST controllers
+     └── CitronixApplication.java  # Main Spring Boot application
