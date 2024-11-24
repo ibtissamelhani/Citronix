@@ -88,4 +88,12 @@ public class HarvestServiceImpl implements HarvestService {
         return harvestRepository.findBySeason(season);
     }
 
+
+    @Override
+    public void deleteAllHarvestDetailsByTreeId(UUID treeId) {
+        if (treeId == null) {
+            throw new InvalidCredentialsException("Tree ID cannot be null");
+        }
+        harvestDetailRepository.deleteByTreeId(treeId);
+    }
 }
