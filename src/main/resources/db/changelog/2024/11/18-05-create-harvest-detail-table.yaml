@@ -39,6 +39,6 @@ databaseChangeLog:
             constraintName: FK_HARVESTDETAIL_ON_TREE
             referencedColumnNames: id
             referencedTableName: tree
-            onDelete: CASCADE
+            onDelete: SET NULL
             onUpdate: CASCADE
 
