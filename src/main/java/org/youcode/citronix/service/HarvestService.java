@@ -12,4 +12,5 @@ public interface HarvestService {
     Harvest findById(UUID id);
     void delete(UUID id);
     List<Harvest> getHarvestsBySeason(Season season);
+    void deleteAllHarvestDetailsByTreeId(UUID treeId);
 }

@@ -1,6 +1,7 @@
 package org.youcode.citronix.service.Implementations;
 
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.youcode.citronix.DTO.TreeDetailsDTO;
 import org.youcode.citronix.domain.entities.Field;
 import org.youcode.citronix.domain.entities.Tree;
+import org.youcode.citronix.event.TreeDeletedEvent;
 import org.youcode.citronix.repository.TreeRepository;
 import org.youcode.citronix.service.FieldService;
 import org.youcode.citronix.service.TreeService;
@@ -26,6 +28,7 @@ public class TreeServiceImpl implements TreeService {
 
     private final TreeRepository treeRepository;
     private final FieldService fieldService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public Tree saveTree(Tree tree) {
@@ -81,6 +84,8 @@ public class TreeServiceImpl implements TreeService {
     @Override
     public void delete(UUID id) {
         Tree treeToDelete = findById(id);
+
+        eventPublisher.publishEvent(new TreeDeletedEvent(treeToDelete.getId()));
         treeRepository.delete(treeToDelete);
     }
 

@@ -1,8 +1,10 @@
 package org.youcode.citronix.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import org.youcode.citronix.domain.entities.HarvestDetail;
 import org.youcode.citronix.domain.entities.Tree;
 import org.youcode.citronix.domain.enums.Season;
@@ -22,4 +24,7 @@ public interface HarvestDetailRepository extends JpaRepository<HarvestDetail, UU
                                          @Param("season") Season season,
                                          @Param("year") int year);
 
+    @Transactional
+    @Modifying
+    void deleteByTreeId(UUID treeId);
 }
