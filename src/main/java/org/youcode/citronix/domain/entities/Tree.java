@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.Period;
 import java.util.List;
 import java.util.UUID;
@@ -36,14 +37,21 @@ public class Tree {
 
     public double getProductivity() {
         int age = getAge();
+        double productivity = 0.0;
         if (age < 3) {
-            return 2.5 ;
+            productivity = 2.5;
         } else if (age <= 10) {
-            return 12 ;
+            productivity= 12 ;
         } else if (age <= 20){
-            return 20 ;
+            productivity = 20 ;
         }else {
             return 0;
         }
+
+        if (plantingDate.getMonth().equals(Month.MARCH)){
+            productivity = productivity + (productivity * 20/100);
+        }
+        
+        return productivity;
     }
 }

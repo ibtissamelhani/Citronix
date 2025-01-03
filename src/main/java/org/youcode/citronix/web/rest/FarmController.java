@@ -20,6 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("v1/api/farms")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:5174", allowCredentials = "true")
 public class FarmController {
 
     private final FarmService farmService;
